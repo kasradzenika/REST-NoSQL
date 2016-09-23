@@ -24,7 +24,8 @@ public class NoSqlService {
     public static void POST(ContractIB contract) {
         Dynamo.createTableIfDoesnotExist(tableName);
 
-        ResourceDynamo.save(contract, nosqlEnv);
+        DynamoReadWrite.save(contract, tableName);
+        // DynamoReadWrite.save(contract, nosqlEnv);
         Watchr.log("POST TO TABLE <" + tableName + "> OF: " + contract.toString());
     }
 
@@ -38,7 +39,7 @@ public class NoSqlService {
 
         try {
             for(String lookup: Dynamo.getLookups(tableName)){
-                ResourceDynamo.get(lookup, response, nosqlEnv);
+                DynamoReadWrite.get(lookup, response, nosqlEnv);
             }
 
             Watchr.log("GET() FROM " + tableName + " RETURNED RESPONSE " + response.resources.toString());
@@ -50,7 +51,7 @@ public class NoSqlService {
 
     public static ContractsResponse GET(String lookup) {
         ContractsResponse response = new ContractsResponse();
-        ResourceDynamo.get(lookup, response, nosqlEnv);
+        DynamoReadWrite.get(lookup, response, nosqlEnv);
 
         try {
             Watchr.log("GET() RESPONSE " + response.resources.toString());

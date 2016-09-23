@@ -14,14 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@DynamoDBTable(tableName="CONTRACTS-TESTING")
-public class ResourceDynamoTesting extends ResourceDynamo {
+// TODO: make the name of the table dynamic
+// http://stackoverflow.com/questions/36347774/how-do-i-dynamically-change-the-table-accessed-using-dynamodbs-java-mapper
+@DynamoDBTable(tableName="CONTRACTS-STAGING")
+public class DynamoResource extends DynamoReadWrite {
 
-    public ResourceDynamoTesting(){
+    public DynamoResource(){
         super();
     }
 
-    public ResourceDynamoTesting(String lookup, String json) {
+    public DynamoResource(String lookup, String json) {
         super.lookup = lookup;
         super.json = json;
     }
@@ -40,8 +42,8 @@ public class ResourceDynamoTesting extends ResourceDynamo {
 
     public static List<ContractResource> get(String lookup, DeployEnv nosqlEnv) {
         List<ContractResource> resources = new ArrayList<ContractResource>();
-        DynamoDBQueryExpression<ResourceDynamoTesting> queryExpression = getQuery(lookup);
-        for(ResourceDynamoTesting item: Dynamo.mapper.query(ResourceDynamoTesting.class, queryExpression)) {
+        DynamoDBQueryExpression<DynamoResource> queryExpression = getQuery(lookup);
+        for(DynamoResource item: Dynamo.mapper.query(DynamoResource.class, queryExpression)) {
             String json = item.getJson();
             Watchr.log("ITEM: " + json);
             ContractIB contract = ContractIB.deserialize(json);
@@ -50,11 +52,12 @@ public class ResourceDynamoTesting extends ResourceDynamo {
         return resources;
     }
 
-    private static DynamoDBQueryExpression<ResourceDynamoTesting> getQuery(String lookup) {
-        ResourceDynamoTesting partitionKey = new ResourceDynamoTesting();
+    private static DynamoDBQueryExpression<DynamoResource> getQuery(String lookup) {
+        DynamoResource partitionKey = new DynamoResource();
         partitionKey.setLookup(lookup);
 
-        return new DynamoDBQueryExpression<ResourceDynamoTesting>()
+        return new DynamoDBQueryExpression<DynamoResource>()
                 .withHashKeyValues(partitionKey);
     }
+
 }
