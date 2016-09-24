@@ -25,19 +25,20 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.onenow.hedgefund:awsec:0.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.onenow.hedgefund:aws:0.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.onenow.hedgefund:client-rpc-nosql:0.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.onenow.hedgefund:ibcontract:0.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.onenow.hedgefund:time:0.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.onenow.hedgefund:util:0.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.7" level="project" />
-    <orderEntry type="library" name="Maven: com.onenow.hedgefund:discovery:0.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.onenow.hedgefund:data-access-contract-client:0.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.onenow.hedgefund:ibcontract:0.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.onenow.hedgefund:time:0.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.onenow.hedgefund:rest:0.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.5.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.4.4" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
+    <orderEntry type="library" name="Maven: com.onenow.hedgefund:awsec:0.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.onenow.hedgefund:aws:0.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.onenow.hedgefund:discovery:0.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.onenow.hedgefund:data-access-contract-client:0.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.sun.jersey:jersey-server:1.9" level="project" />
     <orderEntry type="library" name="Maven: asm:asm:3.1" level="project" />
     <orderEntry type="library" name="Maven: com.sun.jersey:jersey-core:1.9" level="project" />

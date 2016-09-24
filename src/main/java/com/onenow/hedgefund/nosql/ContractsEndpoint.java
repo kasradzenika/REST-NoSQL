@@ -31,10 +31,13 @@ public class ContractsEndpoint {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public static String GET() {
-        ContractsResponse response = NoSqlService.GET();
-        String serialized = Piping.serialize(response);
 
-        return serialized;
+        return Piping.serialize(NoSqlService.GET());
+
+        // ContractsResponse response = NoSqlService.GET();
+        // String serialized = Piping.serialize(response);
+        // return serialized;
+
     }
 
     @GET
@@ -44,10 +47,11 @@ public class ContractsEndpoint {
     public static String GET(@PathParam("ID") String lookup) {
 
         Watchr.log("LOOKING UP " + lookup);
-        ContractsResponse response = NoSqlService.GET(lookup);
-        String serialized = Piping.serialize(response);
+        return Piping.serialize(NoSqlService.GET(lookup));
 
-        return serialized;
+        // ContractsResponse response = NoSqlService.GET(lookup);
+        // String serialized = Piping.serialize(response);
+        // return serialized;
     }
 
     @DELETE

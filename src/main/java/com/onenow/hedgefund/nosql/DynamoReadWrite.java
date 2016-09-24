@@ -5,6 +5,7 @@ import com.onenow.hedgefund.contractclient.ContractIB;
 import com.onenow.hedgefund.contractclient.ContractsResponse;
 import com.onenow.hedgefund.contractclient.LookupContract;
 import com.onenow.hedgefund.discrete.DeployEnv;
+import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 import com.onenow.hedgefund.util.Piping;
 
 
@@ -27,7 +28,7 @@ public class DynamoReadWrite {
         try {
 
             // TODO: use the tableName argument to save the item
-            Dynamo.mapper.save(new DynamoResource(LookupContract.getContractKey(item), getValue(item)));
+            Dynamo.mapper.save(new DynamoTable(LookupContract.getContractKey(item), getValue(item)));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,11 +39,11 @@ public class DynamoReadWrite {
         return Piping.serialize(contract);
     }
 
-    public static void get(String lookup, ContractsResponse response, DeployEnv nosqlEnv) {
+    public static void get(String lookup, DynamoResponse response, DeployEnv nosqlEnv) {
 
         // TODO
         if(nosqlEnv.equals(DeployEnv.STAGING)) {
-            response.resources.addAll(DynamoResource.get(lookup, nosqlEnv));
+            response.resources.addAll(DynamoTable.get(lookup, nosqlEnv));
         }
     }
 

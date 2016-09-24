@@ -72,6 +72,13 @@
   <!-- DEPENDENCIES TO PULL -->
   <dependencies>
 
+    <!-- OWN: NoSQL client -->
+    <dependency>
+      <groupId>${this.groupId}</groupId>
+      <artifactId>client-rpc-nosql</artifactId>
+      <version>LATEST</version>
+    </dependency>
+
     <!-- OWN: AWS EC -->
     <dependency>
       <groupId>${this.groupId}</groupId>

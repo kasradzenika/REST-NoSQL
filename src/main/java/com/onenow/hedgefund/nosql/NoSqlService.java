@@ -7,6 +7,7 @@ import com.onenow.hedgefund.contractclient.ContractsResponse;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.discrete.ServiceType;
 import com.onenow.hedgefund.logging.Watchr;
+import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 
 
 public class NoSqlService {
@@ -34,8 +35,8 @@ public class NoSqlService {
         // TODO:
     }
 
-    public static ContractsResponse GET() {
-        ContractsResponse response = new ContractsResponse();
+    public static DynamoResponse GET() {
+        DynamoResponse response = new DynamoResponse();
 
         try {
             for(String lookup: Dynamo.getLookups(tableName)){
@@ -49,8 +50,8 @@ public class NoSqlService {
         return response;
     }
 
-    public static ContractsResponse GET(String lookup) {
-        ContractsResponse response = new ContractsResponse();
+    public static DynamoResponse GET(String lookup) {
+        DynamoResponse response = new DynamoResponse();
         DynamoReadWrite.get(lookup, response, nosqlEnv);
 
         try {

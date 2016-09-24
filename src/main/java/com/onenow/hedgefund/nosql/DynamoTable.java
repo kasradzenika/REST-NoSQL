@@ -9,6 +9,7 @@ import com.onenow.hedgefund.contractclient.ContractIB;
 import com.onenow.hedgefund.contractclient.ContractResource;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.logging.Watchr;
+import com.onenow.hedgefund.nosqlclient.DynamoResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +18,13 @@ import java.util.List;
 // TODO: make the name of the table dynamic
 // http://stackoverflow.com/questions/36347774/how-do-i-dynamically-change-the-table-accessed-using-dynamodbs-java-mapper
 @DynamoDBTable(tableName="CONTRACTS-STAGING")
-public class DynamoResource extends DynamoReadWrite {
+public class DynamoTable extends DynamoReadWrite {
 
-    public DynamoResource(){
+    public DynamoTable(){
         super();
     }
 
-    public DynamoResource(String lookup, String json) {
+    public DynamoTable(String lookup, String json) {
         super.lookup = lookup;
         super.json = json;
     }
@@ -40,23 +41,22 @@ public class DynamoResource extends DynamoReadWrite {
         return lookup + "\t" + json;
     }
 
-    public static List<ContractResource> get(String lookup, DeployEnv nosqlEnv) {
-        List<ContractResource> resources = new ArrayList<ContractResource>();
-        DynamoDBQueryExpression<DynamoResource> queryExpression = getQuery(lookup);
-        for(DynamoResource item: Dynamo.mapper.query(DynamoResource.class, queryExpression)) {
+    public static List<DynamoResource> get(String lookup, DeployEnv nosqlEnv) {
+        List<DynamoResource> resources = new ArrayList<DynamoResource>();
+        DynamoDBQueryExpression<DynamoTable> queryExpression = getQuery(lookup);
+        for(DynamoTable item: Dynamo.mapper.query(DynamoTable.class, queryExpression)) {
             String json = item.getJson();
             Watchr.log("ITEM: " + json);
-            ContractIB contract = ContractIB.deserialize(json);
-            resources.add(new ContractResource(contract, nosqlEnv));
+            resources.add(new DynamoResource(json, nosqlEnv));
         }
         return resources;
     }
 
-    private static DynamoDBQueryExpression<DynamoResource> getQuery(String lookup) {
-        DynamoResource partitionKey = new DynamoResource();
+    private static DynamoDBQueryExpression<DynamoTable> getQuery(String lookup) {
+        DynamoTable partitionKey = new DynamoTable();
         partitionKey.setLookup(lookup);
 
-        return new DynamoDBQueryExpression<DynamoResource>()
+        return new DynamoDBQueryExpression<DynamoTable>()
                 .withHashKeyValues(partitionKey);
     }
 
