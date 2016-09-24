@@ -22,8 +22,8 @@ public class CrudTest {
          NoSqlService.POST(contract);
 
          // read
-         ContractsResponse response = NoSqlService.GET();
-         Watchr.log("GET() RESPONSE " + response.toString());
+         // ContractsResponse response = NoSqlService.GET();
+         // Watchr.log("GET() RESPONSE " + response.toString());
 
 //         // count existing resources
 //         Watchr.log("RESOURCES SIZE " + response.resources.size());
