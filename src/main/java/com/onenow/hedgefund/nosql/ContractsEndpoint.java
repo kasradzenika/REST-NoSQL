@@ -1,7 +1,6 @@
 package com.onenow.hedgefund.nosql;
 
-import com.onenow.hedgefund.contractclient.ContractIB;
-import com.onenow.hedgefund.contractclient.ContractsResponse;
+import com.onenow.hedgefund.nosqlclient.ContractIB;
 import com.onenow.hedgefund.logging.Watchr;
 import com.onenow.hedgefund.util.Piping;
 
@@ -17,7 +16,8 @@ public class ContractsEndpoint {
     @Consumes(MediaType.TEXT_PLAIN)
     public static void POST(String itemJson) {  // must be passed as TXT json to use custom deserializer
 
-        NoSqlService.POST(ContractIB.deserialize(itemJson));
+        ContractIB contract = (ContractIB) Piping.deserialize(itemJson, ContractIB.class);
+        NoSqlService.POST(contract.getContractID().toString(), itemJson);
     }
 
     @PUT

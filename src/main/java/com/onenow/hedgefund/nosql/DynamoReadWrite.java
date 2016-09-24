@@ -24,19 +24,15 @@ public class DynamoReadWrite {
     }
 
     // saves two entries for every request: to lookup by contract ID or investor lookup
-    public static void save(ContractIB item, String tableName) {
+    public static void save(String key, String value, String tableName) {
         try {
 
             // TODO: use the tableName argument to save the item
-            Dynamo.mapper.save(new DynamoTable(LookupContract.getContractKey(item), getValue(item)));
+            Dynamo.mapper.save(new DynamoTable(key, value));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private static String getValue(ContractIB contract) {
-        return Piping.serialize(contract);
     }
 
     public static void get(String lookup, DynamoResponse response, DeployEnv nosqlEnv) {

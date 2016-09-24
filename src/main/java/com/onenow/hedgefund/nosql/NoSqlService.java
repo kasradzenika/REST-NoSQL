@@ -2,8 +2,6 @@ package com.onenow.hedgefund.nosql;
 
 import com.onenow.hedgefund.aws.Dynamo;
 import com.onenow.hedgefund.awsec.LookupService;
-import com.onenow.hedgefund.contractclient.ContractIB;
-import com.onenow.hedgefund.contractclient.ContractsResponse;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.discrete.ServiceType;
 import com.onenow.hedgefund.logging.Watchr;
@@ -22,18 +20,13 @@ public class NoSqlService {
 
     }
 
-    public static void POST(ContractIB contract) {
+    public static void POST(String key, String value) {  // ContractIB contract
         Dynamo.createTableIfDoesnotExist(tableName);
 
-        DynamoReadWrite.save(contract, tableName);
-        // DynamoReadWrite.save(contract, nosqlEnv);
-        Watchr.log("POST TO TABLE <" + tableName + "> OF: " + contract.toString());
+        DynamoReadWrite.save(key, value, tableName);
+        Watchr.log("POST TO TABLE <" + tableName + "> OF: " + value.toString());
     }
 
-    public static void PUT(ContractIB contract) {
-
-        // TODO:
-    }
 
     public static DynamoResponse GET() {
         DynamoResponse response = new DynamoResponse();
