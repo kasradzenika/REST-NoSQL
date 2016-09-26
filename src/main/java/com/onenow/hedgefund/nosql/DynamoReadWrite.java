@@ -44,29 +44,16 @@ public class DynamoReadWrite
     public static void get(String lookup,
                            String tableName,
                            DynamoResponse response,
-                           DeployEnv nosqlEnv)
-    {
+                           DeployEnv nosqlEnv) {
 
-        // TODO
-        if (nosqlEnv.equals(DeployEnv.STAGING))
-        {
-            response.resources.addAll(DynamoTable.get(lookup, tableName, nosqlEnv));
-        }
+        response.resources.addAll(DynamoTable.get(lookup, tableName, nosqlEnv));
     }
 
-    public static void get(String whenAt, String lookup, String tableName, DynamoResponse response, DeployEnv nosqlEnv)
-    {
-        if (nosqlEnv.equals(DeployEnv.STAGING))
-        {
-            response.resources.addAll(DynamoTable.get(whenAt, lookup, tableName, nosqlEnv));
-        }
+    public static void get(String whenAt, String lookup, String tableName, DynamoResponse response, DeployEnv nosqlEnv) {
+        response.resources.addAll(DynamoTable.get(whenAt, lookup, tableName, nosqlEnv));
     }
 
-    public static void getByDateRange(String fromDate, String toDate, String tableName, DynamoResponse response, DeployEnv nosqlEnv)
-    {
-        if (nosqlEnv.equals(DeployEnv.STAGING))
-        {
-            response.resources.addAll(DynamoTable.getByDateRange(fromDate, toDate, tableName, nosqlEnv));
-        }
+    public static void getByDateRange(String fromDate, String toDate, String tableName, DynamoResponse response, DeployEnv nosqlEnv) {
+        response.resources.addAll(DynamoTable.getByDateRange(fromDate, toDate, tableName, nosqlEnv));
     }
 }
