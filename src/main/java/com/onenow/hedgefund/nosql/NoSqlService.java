@@ -25,11 +25,19 @@ public class NoSqlService
     public static void POST(String key,
                             String value,
                             String tableName)
-    {  // ContractIB contract
+    {
         Dynamo.createTableIfDoesnotExist(tableName);
 
         DynamoReadWrite.save(key, value, tableName);
         Watchr.log("POST TO TABLE <" + tableName + "> OF: " + value.toString());
+    }
+
+    public static void PUT(String key,
+                            String value,
+                            String tableName)
+    {
+        DynamoReadWrite.save(key, value, tableName);
+        Watchr.log("PUT TO TABLE <" + tableName + "> OF: " + value.toString());
     }
 
 
