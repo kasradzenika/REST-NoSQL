@@ -7,6 +7,7 @@ import com.onenow.hedgefund.util.Piping;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 
 @Path("/nosql")
@@ -14,50 +15,78 @@ public class NoSqlEndpoint
 {
     @POST
     @Path("/")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public static void POST(Model model)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response POST(Model model)
     {
-        NoSqlService.POST(model.getLookup(), model.getItemJson(), model.getTableName());
+        try
+        {
+            NoSqlService.POST(model.getLookup(), model.getItemJson(), model.getTableName());
+            return Response.ok().build();
+        }
+        catch (Exception ex)
+        {
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
     }
 
     @PUT
     @Path("/")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public static void PUT(Model model)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response PUT(Model model)
     {
-
-        NoSqlService.PUT(model.getLookup(), model.getItemJson(), model.getTableName());
+        try
+        {
+            NoSqlService.PUT(model.getLookup(), model.getItemJson(), model.getTableName());
+            return Response.ok().build();
+        }
+        catch (Exception ex)
+        {
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
     }
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public static String GET(@QueryParam("tableName") String tableName)
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response GET(@QueryParam("tableName") String tableName)
     {
 
-        return Piping.serialize(NoSqlService.GET(tableName));
+        try
+        {
+            return Response.ok(Piping.serialize(NoSqlService.GET(tableName))).build();
+        }
+        catch (Exception ex)
+        {
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
     }
 
     @GET
     @Path("/{ID}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public static String GET(@PathParam("ID") String lookup,
-                             @QueryParam("tableName") String tableName)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response GET(@PathParam("ID") String lookup,
+                      @QueryParam("tableName") String tableName)
     {
-
         Watchr.log("LOOKING UP " + lookup);
-        return Piping.serialize(NoSqlService.GET(lookup, tableName));
-
+        try
+        {
+            return Response.ok(Piping.serialize(NoSqlService.GET(lookup, tableName))).build();
+        }
+        catch (Exception ex)
+        {
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
     }
 
     @GET
     @Path("/query")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     // https://www.mkyong.com/webservices/jax-rs/jax-rs-queryparam-example/
-    public static String GET(@QueryParam("fromDate") String fromDate,
-                             @QueryParam("toDate") String toDate,
-                             @QueryParam("dateFormat") String dateFormat,
-                             @QueryParam("timeZone") String timeZone,
-                             @QueryParam("tableName") String tableName)
+    public Response GET(@QueryParam("fromDate") String fromDate,
+                      @QueryParam("toDate") String toDate,
+                      @QueryParam("dateFormat") String dateFormat,
+                      @QueryParam("timeZone") String timeZone,
+                      @QueryParam("tableName") String tableName)
     {
 
         // String log = "INPUT: " + fromDate + " " + toDate + " " + dateFormat + " " + timeZone;
@@ -65,20 +94,33 @@ public class NoSqlEndpoint
 
         // TODO LATER: date format change if necessary... dateFormat, timeZone
 
-        DynamoResponse response = NoSqlService.GET(fromDate, toDate, tableName);
-        String serialized = Piping.serialize(response);
-
-        return serialized;
+        try
+        {
+            DynamoResponse response = NoSqlService.GET(fromDate, toDate, tableName);
+            String serialized = Piping.serialize(response);
+            return Response.ok(serialized).build();
+        }
+        catch (Exception ex)
+        {
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
     }
 
     @DELETE
     @Path("/{ID}")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public static void DELETE(@PathParam("ID") String lookup)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response DELETE(@PathParam("ID") String lookup)
     {
 
-        NoSqlService.DELETE(lookup);
-
+        try
+        {
+            NoSqlService.DELETE(lookup);
+            return Response.ok().build();
+        }
+        catch (Exception ex)
+        {
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
     }
 
 }

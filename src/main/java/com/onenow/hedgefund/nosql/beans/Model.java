@@ -1,9 +1,16 @@
 package com.onenow.hedgefund.nosql.beans;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Model
 {
+    @XmlElement
     private String lookup;
+    @XmlElement
     private String itemJson;
+    @XmlElement
     private String tableName;
 
     public Model()
