@@ -25,6 +25,7 @@ public class NoSqlEndpoint
         }
         catch (Exception ex)
         {
+            ex.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
     }

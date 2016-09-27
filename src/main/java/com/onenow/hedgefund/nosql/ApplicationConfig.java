@@ -4,13 +4,14 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+import java.util.Collections;
 import java.util.Set;
 
-@ApplicationPath("webresources")
-public class NoSqlApplication extends Application
+@ApplicationPath("/")
+public class ApplicationConfig extends Application
 {
 
-    public NoSqlApplication()
+    public ApplicationConfig()
     {
     }
 
@@ -19,7 +20,8 @@ public class NoSqlApplication extends Application
     {
         Set<Class<?>> resources = new java.util.HashSet<>();
         resources.add(JacksonFeature.class);
+        resources.add(NoSqlEndpoint.class);
 
-        return resources;
+        return Collections.unmodifiableSet(resources);
     }
 }
