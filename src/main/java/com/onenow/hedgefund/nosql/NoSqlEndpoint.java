@@ -2,6 +2,7 @@ package com.onenow.hedgefund.nosql;
 
 import com.onenow.hedgefund.logging.Watchr;
 import com.onenow.hedgefund.nosql.beans.Model;
+import com.onenow.hedgefund.nosql.utils.ExceptionUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 import com.onenow.hedgefund.util.Piping;
 
@@ -25,8 +26,8 @@ public class NoSqlEndpoint
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
-            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+            Watchr.log(ExceptionUtil.exceptionToString(ex));
+            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
 
@@ -42,7 +43,8 @@ public class NoSqlEndpoint
         }
         catch (Exception ex)
         {
-            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+            Watchr.log(ExceptionUtil.exceptionToString(ex));
+            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
 
@@ -58,7 +60,8 @@ public class NoSqlEndpoint
         }
         catch (Exception ex)
         {
-            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+            Watchr.log(ExceptionUtil.exceptionToString(ex));
+            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
 
@@ -75,7 +78,8 @@ public class NoSqlEndpoint
         }
         catch (Exception ex)
         {
-            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+            Watchr.log(ExceptionUtil.exceptionToString(ex));
+            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
 
@@ -103,24 +107,26 @@ public class NoSqlEndpoint
         }
         catch (Exception ex)
         {
-            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+            Watchr.log(ExceptionUtil.exceptionToString(ex));
+            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
 
     @DELETE
     @Path("/{ID}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response DELETE(@PathParam("ID") String lookup)
+    public Response DELETE(@PathParam("ID") String lookup, @QueryParam("tableName") String tableName)
     {
 
         try
         {
-            NoSqlService.DELETE(lookup);
+            NoSqlService.DELETE(lookup, tableName);
             return Response.ok().build();
         }
         catch (Exception ex)
         {
-            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+            Watchr.log(ExceptionUtil.exceptionToString(ex));
+            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
 

@@ -5,6 +5,7 @@ import com.onenow.hedgefund.awsec.LookupService;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.discrete.ServiceType;
 import com.onenow.hedgefund.logging.Watchr;
+import com.onenow.hedgefund.nosql.utils.ExceptionUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 
 
@@ -25,6 +26,7 @@ public class NoSqlService
     public static void POST(String key,
                             String value,
                             String tableName)
+            throws Exception
     {
         Dynamo.createTableIfDoesnotExist(tableName);
 
@@ -33,8 +35,9 @@ public class NoSqlService
     }
 
     public static void PUT(String key,
-                            String value,
-                            String tableName)
+                           String value,
+                           String tableName)
+            throws Exception
     {
         DynamoReadWrite.save(key, value, tableName);
         Watchr.log("PUT TO TABLE <" + tableName + "> OF: " + value.toString());
@@ -42,39 +45,27 @@ public class NoSqlService
 
 
     public static DynamoResponse GET(String tableName)
+            throws Exception
     {
         DynamoResponse response = new DynamoResponse();
 
-        try
+        for (String lookup : Dynamo.getLookups(tableName))
         {
-            for (String lookup : Dynamo.getLookups(tableName))
-            {
-                DynamoReadWrite.get(lookup, tableName, response, nosqlEnv);
-            }
+            DynamoReadWrite.get(lookup, tableName, response, nosqlEnv);
+        }
 
-            Watchr.log("GET() FROM " + tableName + " RETURNED RESPONSE " + response.resources.toString());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        Watchr.log("GET() FROM " + tableName + " RETURNED RESPONSE " + response.resources.toString());
         return response;
     }
 
     public static DynamoResponse GET(String lookup,
                                      String tableName)
+            throws Exception
     {
         DynamoResponse response = new DynamoResponse();
         DynamoReadWrite.get(lookup, tableName, response, nosqlEnv);
 
-        try
-        {
-            Watchr.log("GET() RESPONSE " + response.resources.toString());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        Watchr.log("GET() RESPONSE " + response.resources.toString());
 
         return response;
     }
@@ -82,24 +73,19 @@ public class NoSqlService
     public static DynamoResponse GET(String fromDate,
                                      String toDate,
                                      String tableName)
+            throws Exception
     {
         DynamoResponse response = new DynamoResponse();
         DynamoReadWrite.getByDateRange(fromDate, toDate, tableName, response, nosqlEnv);
 
-        try
-        {
-            Watchr.log("GET() RESPONSE " + response.resources.toString());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        Watchr.log("GET() RESPONSE " + response.resources.toString());
 
         return response;
     }
 
     public static void DELETE(String lookup,
                               String tableName)
+            throws Exception
     {
         String key = "LOOKUP";
         Dynamo.deleteItem(key, lookup, tableName);
@@ -107,6 +93,7 @@ public class NoSqlService
     }
 
     public static void DELETE(String tableName)
+            throws Exception
     {
         Dynamo.deleteTable(tableName);
     }
