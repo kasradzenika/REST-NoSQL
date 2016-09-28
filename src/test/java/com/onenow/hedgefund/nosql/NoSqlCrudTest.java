@@ -1,12 +1,11 @@
 package com.onenow.hedgefund.nosql;
 
-import com.onenow.hedgefund.logging.Watchr;
 import com.onenow.hedgefund.nosql.beans.Model;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.json.simple.JSONObject;
-import org.junit.After;
-import org.junit.Before;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import javax.ws.rs.client.Client;
@@ -21,12 +20,10 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.util.UUID;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 
-@Test
 public class NoSqlCrudTest
 {
     private Logger log = Logger.getLogger(NoSqlCrudTest.class.getName());
@@ -58,7 +55,7 @@ public class NoSqlCrudTest
         }
     }
 
-    @Before
+    @BeforeTest
     public void setUp() throws IOException
     {
         URI uri = UriBuilder.fromUri("http://" + host + "/").port(port).build();
@@ -74,7 +71,7 @@ public class NoSqlCrudTest
         log.info("Server started...");
     }
 
-    @After
+    @AfterTest
     public void destroy()
     {
         if (server != null)
@@ -88,8 +85,8 @@ public class NoSqlCrudTest
     public void test()
     {
         saveObject();
-//        updateObject();
-//        deleteObject();
+        updateObject();
+        deleteObject();
     }
 
     private void saveObject()
@@ -114,7 +111,7 @@ public class NoSqlCrudTest
         Response response = resource.request(MediaType.APPLICATION_JSON)
                                     .post(Entity.entity(model, MediaType.APPLICATION_JSON));
 
-        assertEquals("Failed to save item!", Response.ok().build().getStatus(), response.getStatus());
+        assertEquals(response.getStatus(), Response.ok().build().getStatus(), "Failed to save item!");
     }
 
     private void updateObject()
@@ -138,13 +135,7 @@ public class NoSqlCrudTest
         Response response = resource.request(MediaType.APPLICATION_JSON)
                                     .put(Entity.entity(model, MediaType.APPLICATION_JSON));
 
-        int status = response.getStatus();
-        if (Response.ok().build().getStatus() != status)
-        {
-            Watchr.log(response.getEntity().toString());
-        }
-
-        assertEquals("Failed to update item!", Response.ok().build().getStatus(), status);
+        assertEquals(response.getStatus(), Response.ok().build().getStatus(), "Failed to update item!");
     }
 
     private void deleteObject()
@@ -155,13 +146,7 @@ public class NoSqlCrudTest
         Response response = resource.request(MediaType.APPLICATION_JSON)
                                     .delete();
 
-        int status = response.getStatus();
-        if (Response.ok().build().getStatus() != status)
-        {
-            Watchr.log(response.getEntity().toString());
-        }
-
-        assertEquals("Failed to delete item!", Response.ok().build().getStatus(), status);
+        assertEquals(response.getStatus(), Response.ok().build().getStatus(), "Failed to delete item!");
     }
 
     private String getContextBaseUrl()

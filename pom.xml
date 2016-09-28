@@ -288,16 +288,10 @@
                         </resource>
                     </resources>
                     <runs>
-                        <!--<run>["env"]</run>-->
-                        <!--<run>rm -rf /usr/local/tomcat/webapps/docs /usr/local/tomcat/webapps/examples /usr/local/tomcat/webapps/ROOT</run>-->
-                        <!--<run>cp /${project.build.finalName}.war /usr/local/tomcat/webapps/ROOT.war</run>-->
-                        <!--<run>ls -ltr /usr/local/tomcat/webapps/</run>-->
-                        <run>del /f E:/Workspaces/workspace-own/tomcat/webapps/docs
-                            E:/Workspaces/workspace-own/tomcat/webapps/examples
-                            E:/Workspaces/workspace-own/tomcat/webapps/ROOT
-                        </run>
-                        <run>copy /${project.build.finalName}.war E:/Workspaces/workspace-own/tomcat/webapps/ROOT.war
-                        </run>
+                        <run>["env"]</run>
+                        <run>rm -rf /usr/local/tomcat/webapps/docs /usr/local/tomcat/webapps/examples /usr/local/tomcat/webapps/ROOT</run>
+                        <run>cp /${project.build.finalName}.war /usr/local/tomcat/webapps/ROOT.war</run>
+                        <run>ls -ltr /usr/local/tomcat/webapps/</run>
                     </runs>
                     <exposes>
                         <expose>8080</expose>
