@@ -1,10 +1,13 @@
 package com.onenow.hedgefund.nosql;
 
+import com.onenow.hedgefund.discovery.WhereAmI;
 import com.onenow.hedgefund.nosql.beans.Model;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.json.simple.JSONObject;
+import org.testng.SkipException;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -26,6 +29,15 @@ import static org.testng.Assert.assertEquals;
 
 public class NoSqlCrudTest
 {
+
+    @BeforeMethod
+    // TODO: keepTrack on Testing environment with a Gateway
+    protected void checkEnvironment() {
+        if (!WhereAmI.isDevelopmentEnv()) {
+            throw new SkipException("Skipping tests in Jenkins for now.");
+        }
+    }
+
     private Logger log = Logger.getLogger(NoSqlCrudTest.class.getName());
 
     private String host = "localhost";
