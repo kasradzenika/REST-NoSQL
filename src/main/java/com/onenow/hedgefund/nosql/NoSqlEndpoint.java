@@ -6,13 +6,17 @@ import com.onenow.hedgefund.nosql.beans.Model;
 import com.onenow.hedgefund.nosql.utils.ExceptionUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 import com.onenow.hedgefund.util.Piping;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.logging.Level;
 
-
+@Api(value = "/nosql", description = "This is nosql service where you can access various method manipulate the operations")
 @Path("/nosql")
 public class NoSqlEndpoint
 {
@@ -24,6 +28,8 @@ public class NoSqlEndpoint
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
+    @ApiOperation(httpMethod = "POST", value = "/", notes = "This is POST method use to save json of defined table with lookup")
+    @ApiResponses(value = {@ApiResponse(code = 400, message = "Internal exception generated")})
     public Response POST(Model model)
     {
         try
@@ -41,6 +47,8 @@ public class NoSqlEndpoint
     @PUT
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
+    @ApiOperation(httpMethod = "PUT", value = "/", notes = "This is PUT method use to update json of defined table with lookup")
+    @ApiResponses(value = {@ApiResponse(code = 400, message = "Internal exception generated")})
     public Response PUT(Model model)
     {
         try
@@ -58,6 +66,8 @@ public class NoSqlEndpoint
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(httpMethod = "GET", value = "/", notes = "This is GET method use to retrieve table data")
+    @ApiResponses(value = {@ApiResponse(code = 400, message = "Internal exception generated")})
     public Response GET(@QueryParam("tableName") String tableName)
     {
 
@@ -75,6 +85,8 @@ public class NoSqlEndpoint
     @GET
     @Path("/{ID}")
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(httpMethod = "GET", value = "/{ID}", notes = "This is GET method use to retrieve table data on bases of lookup")
+    @ApiResponses(value = {@ApiResponse(code = 400, message = "Internal exception generated")})
     public Response GET(@PathParam("ID") String lookup,
                       @QueryParam("tableName") String tableName)
     {
@@ -93,7 +105,8 @@ public class NoSqlEndpoint
     @GET
     @Path("/query")
     @Produces(MediaType.APPLICATION_JSON)
-    // https://www.mkyong.com/webservices/jax-rs/jax-rs-queryparam-example/
+    @ApiOperation(httpMethod = "GET", value = "/query", notes = "This is GET method use to retrieve table data on date range")
+    @ApiResponses(value = {@ApiResponse(code = 400, message = "Internal exception generated")})
     public Response GET(@QueryParam("fromDate") String fromDate,
                       @QueryParam("toDate") String toDate,
                       @QueryParam("dateFormat") String dateFormat,
@@ -122,6 +135,8 @@ public class NoSqlEndpoint
     @DELETE
     @Path("/{ID}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @ApiOperation(httpMethod = "DELETE", value = "/{ID}", notes = "This is DELETE method use to delete table data on the bases of lookup")
+    @ApiResponses(value = {@ApiResponse(code = 400, message = "Internal exception generated")})
     public Response DELETE(@PathParam("ID") String lookup, @QueryParam("tableName") String tableName)
     {
 

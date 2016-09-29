@@ -1,5 +1,7 @@
 package com.onenow.hedgefund.nosql;
 
+import io.swagger.jaxrs.listing.ApiListingResource;
+import io.swagger.jaxrs.listing.SwaggerSerializers;
 import org.glassfish.jersey.jackson.JacksonFeature;
 
 import javax.ws.rs.ApplicationPath;
@@ -21,6 +23,8 @@ public class ApplicationConfig extends Application
         Set<Class<?>> resources = new java.util.HashSet<>();
         resources.add(JacksonFeature.class);
         resources.add(NoSqlEndpoint.class);
+        resources.add(ApiListingResource.class);
+        resources.add(SwaggerSerializers.class);
 
         return Collections.unmodifiableSet(resources);
     }
