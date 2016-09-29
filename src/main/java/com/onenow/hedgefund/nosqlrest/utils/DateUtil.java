@@ -1,4 +1,4 @@
-package com.onenow.hedgefund.nosql.utils;
+package com.onenow.hedgefund.nosqlrest.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

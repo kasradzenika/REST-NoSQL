@@ -1,15 +1,14 @@
-package com.onenow.hedgefund.nosql;
+package com.onenow.hedgefund.nosqlrest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.logging.Level;
 
-import com.onenow.hedgefund.contractclient.ContractsResponse;
 import com.onenow.hedgefund.logging.InitLogger;
 import com.onenow.hedgefund.logging.Watchr;
-import com.onenow.hedgefund.nosql.beans.Model;
-import com.onenow.hedgefund.nosql.utils.ExceptionUtil;
+import com.onenow.hedgefund.nosqlrest.beans.Model;
+import com.onenow.hedgefund.nosqlrest.utils.ExceptionUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 import com.onenow.hedgefund.util.Piping;
 
@@ -17,14 +16,14 @@ import com.onenow.hedgefund.util.Piping;
 public class NoSqlEndpoint
 {
 
-    static {
-        try
-        {
-            InitLogger.run(Level.FINEST);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+//    static {
+//        try
+//        {
+//            InitLogger.run(Level.FINEST);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 
     @POST
     @Path("/")

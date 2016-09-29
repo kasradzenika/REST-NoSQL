@@ -1,11 +1,8 @@
-package com.onenow.hedgefund.nosql;
+package com.onenow.hedgefund.nosqlrest;
 
 import com.onenow.hedgefund.aws.Dynamo;
-import com.onenow.hedgefund.awsec.LookupService;
 import com.onenow.hedgefund.discrete.DeployEnv;
-import com.onenow.hedgefund.discrete.ServiceType;
 import com.onenow.hedgefund.logging.Watchr;
-import com.onenow.hedgefund.nosql.utils.ExceptionUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 
 

@@ -1,4 +1,4 @@
-package com.onenow.hedgefund.nosql.beans;
+package com.onenow.hedgefund.nosqlrest.beans;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

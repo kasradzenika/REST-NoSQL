@@ -1,4 +1,4 @@
-package com.onenow.hedgefund.nosql;
+package com.onenow.hedgefund.nosqlrest;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

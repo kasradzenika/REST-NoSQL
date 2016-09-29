@@ -1,11 +1,11 @@
-package com.onenow.hedgefund.nosql;
+package com.onenow.hedgefund.nosqlrest;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.onenow.hedgefund.aws.Dynamo;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.logging.Watchr;
-import com.onenow.hedgefund.nosql.utils.DateUtil;
+import com.onenow.hedgefund.nosqlrest.utils.DateUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResource;
 
 import java.util.ArrayList;
