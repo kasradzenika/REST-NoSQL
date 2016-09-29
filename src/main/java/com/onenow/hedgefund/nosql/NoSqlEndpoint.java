@@ -6,6 +6,7 @@ import javax.ws.rs.core.Response;
 
 import java.util.logging.Level;
 
+import com.onenow.hedgefund.contractclient.ContractsResponse;
 import com.onenow.hedgefund.logging.InitLogger;
 import com.onenow.hedgefund.logging.Watchr;
 import com.onenow.hedgefund.nosql.beans.Model;
@@ -56,6 +57,21 @@ public class NoSqlEndpoint
         {
             NoSqlService.PUT(model.getLookup(), model.getItemJson(), model.getTableName());
             return Response.ok().build();
+        }
+        catch (Exception ex)
+        {
+            Watchr.log(ExceptionUtil.exceptionToString(ex));
+            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
+        }
+    }
+
+    @GET
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public static Response GET() {
+        try
+        {
+            return Response.ok(Piping.serialize(NoSqlService.GET("CONTRACTS-STAGING"))).build();
         }
         catch (Exception ex)
         {
