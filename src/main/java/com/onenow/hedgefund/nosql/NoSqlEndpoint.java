@@ -1,5 +1,11 @@
 package com.onenow.hedgefund.nosql;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import java.util.logging.Level;
+
 import com.onenow.hedgefund.logging.InitLogger;
 import com.onenow.hedgefund.logging.Watchr;
 import com.onenow.hedgefund.nosql.beans.Model;
@@ -11,25 +17,25 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.logging.Level;
-
 @Api(value = "/nosql", description = "This is nosql service where you can access various method manipulate the operations")
 @Path("/nosql")
 public class NoSqlEndpoint
 {
 
     static {
-        InitLogger.run(Level.FINEST);
+        try
+        {
+            InitLogger.run(Level.FINEST);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(httpMethod = "POST", value = "/", notes = "This is POST method use to save json of defined table with lookup")
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Internal exception generated")})
+    @ApiResponses(value = { @ApiResponse(code = 400, message = "Internal exception generated") })
     public Response POST(Model model)
     {
         try
@@ -48,7 +54,7 @@ public class NoSqlEndpoint
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(httpMethod = "PUT", value = "/", notes = "This is PUT method use to update json of defined table with lookup")
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Internal exception generated")})
+    @ApiResponses(value = { @ApiResponse(code = 400, message = "Internal exception generated") })
     public Response PUT(Model model)
     {
         try
@@ -67,7 +73,7 @@ public class NoSqlEndpoint
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(httpMethod = "GET", value = "/", notes = "This is GET method use to retrieve table data")
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Internal exception generated")})
+    @ApiResponses(value = { @ApiResponse(code = 400, message = "Internal exception generated") })
     public Response GET(@QueryParam("tableName") String tableName)
     {
 
@@ -86,9 +92,9 @@ public class NoSqlEndpoint
     @Path("/{ID}")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(httpMethod = "GET", value = "/{ID}", notes = "This is GET method use to retrieve table data on bases of lookup")
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Internal exception generated")})
+    @ApiResponses(value = { @ApiResponse(code = 400, message = "Internal exception generated") })
     public Response GET(@PathParam("ID") String lookup,
-                      @QueryParam("tableName") String tableName)
+                        @QueryParam("tableName") String tableName)
     {
         Watchr.log("LOOKING UP " + lookup);
         try
@@ -106,12 +112,12 @@ public class NoSqlEndpoint
     @Path("/query")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(httpMethod = "GET", value = "/query", notes = "This is GET method use to retrieve table data on date range")
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Internal exception generated")})
+    @ApiResponses(value = { @ApiResponse(code = 400, message = "Internal exception generated") })
     public Response GET(@QueryParam("fromDate") String fromDate,
-                      @QueryParam("toDate") String toDate,
-                      @QueryParam("dateFormat") String dateFormat,
-                      @QueryParam("timeZone") String timeZone,
-                      @QueryParam("tableName") String tableName)
+                        @QueryParam("toDate") String toDate,
+                        @QueryParam("dateFormat") String dateFormat,
+                        @QueryParam("timeZone") String timeZone,
+                        @QueryParam("tableName") String tableName)
     {
 
         // String log = "INPUT: " + fromDate + " " + toDate + " " + dateFormat + " " + timeZone;
@@ -136,8 +142,9 @@ public class NoSqlEndpoint
     @Path("/{ID}")
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(httpMethod = "DELETE", value = "/{ID}", notes = "This is DELETE method use to delete table data on the bases of lookup")
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Internal exception generated")})
-    public Response DELETE(@PathParam("ID") String lookup, @QueryParam("tableName") String tableName)
+    @ApiResponses(value = { @ApiResponse(code = 400, message = "Internal exception generated") })
+    public Response DELETE(@PathParam("ID") String lookup,
+                           @QueryParam("tableName") String tableName)
     {
 
         try

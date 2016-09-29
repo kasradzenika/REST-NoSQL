@@ -15,14 +15,14 @@
                 com.onenow.hedgefund.nosql
             </param-value>
         </init-param>
-        <init-param>
-            <param-name>javax.ws.rs.Application</param-name>
-            <param-value>com.onenow.hedgefund.nosql.ApplicationConfig</param-value>
-        </init-param>
-        <init-param>
-            <param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
-            <param-value>com.onenow.hedgefund.nosql.filters.CORSFilter</param-value>
-        </init-param>
+        <!--<init-param>-->
+            <!--<param-name>javax.ws.rs.Application</param-name>-->
+            <!--<param-value>com.onenow.hedgefund.nosql.ApplicationConfig</param-value>-->
+        <!--</init-param>-->
+        <!--<init-param>-->
+            <!--<param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>-->
+            <!--<param-value>com.onenow.hedgefund.nosql.filters.CORSFilter</param-value>-->
+        <!--</init-param>-->
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
