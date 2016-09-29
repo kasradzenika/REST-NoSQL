@@ -19,10 +19,10 @@
         <servlet-name>Services</servlet-name>
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Services</servlet-name>
-        <url-pattern>/services/*/*</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>Services</servlet-name>-->
+        <!--<url-pattern>/services/*/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <filter>
         <filter-name>CORS</filter-name>
@@ -57,9 +57,9 @@
         <filter-name>CORS</filter-name>
         <url-pattern>/services/*</url-pattern>
     </filter-mapping>
-    <filter-mapping>
-        <filter-name>CORS</filter-name>
-        <url-pattern>/services/*/*</url-pattern>
-    </filter-mapping>
+    <!--<filter-mapping>-->
+        <!--<filter-name>CORS</filter-name>-->
+        <!--<url-pattern>/services/*/*</url-pattern>-->
+    <!--</filter-mapping>-->
 
 </web-app>
