@@ -3,7 +3,6 @@ package com.onenow.hedgefund.nosql;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import java.util.logging.Level;
 
 import com.onenow.hedgefund.logging.InitLogger;
@@ -12,10 +11,6 @@ import com.onenow.hedgefund.nosql.beans.Model;
 import com.onenow.hedgefund.nosql.utils.ExceptionUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 import com.onenow.hedgefund.util.Piping;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 @Path("/nosql")
 public class NoSqlEndpoint
