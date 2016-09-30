@@ -31,7 +31,7 @@ public class DynamoTable
     }
 
     public static List<DynamoResource> get(String whenAt, String lookup, String tableName,
-                                           DeployEnv nosqlEnv)
+                                           DeployEnv nosqlDB)
     {
         List<DynamoResource> resources = new ArrayList<>();
 
@@ -47,13 +47,13 @@ public class DynamoTable
         {
             String json = item.getJson();
             Watchr.log("ITEM: " + json);
-            resources.add(new DynamoResource(json, nosqlEnv));
+            resources.add(new DynamoResource(json, nosqlDB));
         }
         return resources;
     }
 
     public static List<DynamoResource> get(String lookup, String tableName,
-                                           DeployEnv nosqlEnv)
+                                           DeployEnv nosqlDB)
     {
         List<DynamoResource> resources = new ArrayList<>();
         DynamoDBQueryExpression<DynamoTable> queryExpression = getQuery(lookup);
@@ -61,13 +61,13 @@ public class DynamoTable
         {
             String json = item.getJson();
             Watchr.log("ITEM: " + json);
-            resources.add(new DynamoResource(json, nosqlEnv));
+            resources.add(new DynamoResource(json, nosqlDB));
         }
         return resources;
     }
 
     public static List<DynamoResource> getByDateRange(String fromDate, String toDate, String tableName,
-                                           DeployEnv nosqlEnv)
+                                           DeployEnv nosqlDB)
     {
         List<DynamoResource> resources = new ArrayList<>();
 
@@ -83,7 +83,7 @@ public class DynamoTable
         {
             String json = item.getJson();
             Watchr.log("ITEM: " + json);
-            resources.add(new DynamoResource(json, nosqlEnv));
+            resources.add(new DynamoResource(json, nosqlDB));
         }
         return resources;
     }

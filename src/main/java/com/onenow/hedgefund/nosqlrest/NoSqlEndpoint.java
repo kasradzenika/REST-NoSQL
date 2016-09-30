@@ -58,6 +58,7 @@ public class NoSqlEndpoint
     }
 
     @GET
+    // lists all the tables for all the DB environments: ie. CONTRACTS-DEVELOPMENT, CONTRACTS-STAGING
     @Path("/tables")
     @Produces(MediaType.APPLICATION_JSON)
     public static Response GET() {
@@ -122,14 +123,14 @@ public class NoSqlEndpoint
     }
 
     @DELETE
-    @Path("/table/{tableName}/{ID}")
+    @Path("/table/{tableLookupName}/{ID}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response DELETE(@PathParam("ID") String lookup,
-                           @PathParam("tableName") String tableName)
+                           @PathParam("tableLookupName") String tableLookupName)
     {
         try
         {
-            NoSqlService.DELETE(lookup, tableName);
+            NoSqlService.DELETE(lookup, tableLookupName);
             return Response.ok().build();
         }
         catch (Exception ex)

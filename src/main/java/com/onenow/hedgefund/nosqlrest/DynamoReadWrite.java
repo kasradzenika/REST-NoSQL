@@ -30,29 +30,29 @@ public class DynamoReadWrite
     // saves two entries for every request: to lookup by contract ID or investor lookup
     public static void save(String key,
                             String value,
-                            String tableName)
+                            String tableLookupName)
             throws Exception
     {
         DynamoTable dt = new DynamoTable(key, value);
-        Dynamo.mapper.save(dt, new DynamoDBMapperConfig(new DynamoDBMapperConfig.TableNameOverride(tableName)));
+        Dynamo.mapper.save(dt, new DynamoDBMapperConfig(new DynamoDBMapperConfig.TableNameOverride(tableLookupName)));
     }
 
     public static void get(String lookup,
-                           String tableName,
+                           String tableLookupName,
                            DynamoResponse response,
-                           DeployEnv nosqlEnv)
+                           DeployEnv nosqlDB)
     {
 
-        response.resources.addAll(DynamoTable.get(lookup, tableName, nosqlEnv));
+        response.resources.addAll(DynamoTable.get(lookup, tableLookupName, nosqlDB));
     }
 
-    public static void get(String whenAt, String lookup, String tableName, DynamoResponse response, DeployEnv nosqlEnv)
+    public static void get(String whenAt, String lookup, String tableName, DynamoResponse response, DeployEnv nosqlDB)
     {
-        response.resources.addAll(DynamoTable.get(whenAt, lookup, tableName, nosqlEnv));
+        response.resources.addAll(DynamoTable.get(whenAt, lookup, tableName, nosqlDB));
     }
 
-    public static void getByDateRange(String fromDate, String toDate, String tableName, DynamoResponse response, DeployEnv nosqlEnv)
+    public static void getByDateRange(String fromDate, String toDate, String tableName, DynamoResponse response, DeployEnv nosqlDB)
     {
-        response.resources.addAll(DynamoTable.getByDateRange(fromDate, toDate, tableName, nosqlEnv));
+        response.resources.addAll(DynamoTable.getByDateRange(fromDate, toDate, tableName, nosqlDB));
     }
 }
