@@ -26,8 +26,7 @@ public class DynamoTable
     public DynamoTable(String lookup,
                        String json)
     {
-        super.lookup = lookup;
-        super.json = json;
+        super(lookup, json);
         super.dateTime = DateUtil.getCurrentDate();
     }
 

@@ -5,10 +5,12 @@ import com.onenow.hedgefund.aws.Dynamo;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 
+import java.util.UUID;
+
 
 public class DynamoReadWrite
 {
-    protected String lookup = "";
+    protected String lookup = UUID.randomUUID().toString();
     protected String json = "";
     protected String dateTime = "";
 
