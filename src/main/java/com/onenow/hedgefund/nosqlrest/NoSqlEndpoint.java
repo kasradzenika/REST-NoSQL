@@ -27,39 +27,6 @@ public class NoSqlEndpoint
 //    }
 
     @POST
-    @Path("/createTable/{tableName}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response POST(@PathParam("tableName") String tableName)
-    {
-        try
-        {
-            return Response.ok(Dynamo.createTableIfDoesnotExist(tableName)).build();
-        }
-        catch (Exception ex)
-        {
-            Watchr.log(ExceptionUtil.exceptionToString(ex));
-            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
-        }
-    }
-
-    @DELETE
-    @Path("/deleteTable/{tableName}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response DELETE(@PathParam("tableName") String tableName)
-    {
-        try
-        {
-            Dynamo.deleteTable(tableName);
-            return Response.ok().build();
-        }
-        catch (Exception ex)
-        {
-            Watchr.log(ExceptionUtil.exceptionToString(ex));
-            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
-        }
-    }
-
-    @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response POST(Model model)
