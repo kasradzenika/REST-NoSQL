@@ -28,7 +28,7 @@ public class NoSqlService
         Dynamo.createTableIfDoesnotExist(tableName);
 
         DynamoReadWrite.save(key, value, tableName);
-        Watchr.log("POST TO TABLE <" + tableName + "> OF: " + value.toString());
+//        Watchr.log("POST TO TABLE <" + tableName + "> OF: " + value.toString());
     }
 
     public static void PUT(String key,
@@ -37,7 +37,7 @@ public class NoSqlService
             throws Exception
     {
         DynamoReadWrite.save(key, value, tableName);
-        Watchr.log("PUT TO TABLE <" + tableName + "> OF: " + value.toString());
+//        Watchr.log("PUT TO TABLE <" + tableName + "> OF: " + value.toString());
     }
 
 
@@ -51,7 +51,7 @@ public class NoSqlService
             DynamoReadWrite.get(lookup, tableName, response, nosqlEnv);
         }
 
-        Watchr.log("GET() FROM " + tableName + " RETURNED RESPONSE " + response.resources.toString());
+//        Watchr.log("GET() FROM " + tableName + " RETURNED RESPONSE " + response.resources.toString());
         return response;
     }
 
@@ -62,7 +62,7 @@ public class NoSqlService
         DynamoResponse response = new DynamoResponse();
         DynamoReadWrite.get(lookup, tableName, response, nosqlEnv);
 
-        Watchr.log("GET() RESPONSE " + response.resources.toString());
+//        Watchr.log("GET() RESPONSE " + response.resources.toString());
 
         return response;
     }
@@ -75,7 +75,7 @@ public class NoSqlService
         DynamoResponse response = new DynamoResponse();
         DynamoReadWrite.getByDateRange(fromDate, toDate, tableName, response, nosqlEnv);
 
-        Watchr.log("GET() RESPONSE " + response.resources.toString());
+//        Watchr.log("GET() RESPONSE " + response.resources.toString());
 
         return response;
     }
@@ -86,7 +86,7 @@ public class NoSqlService
     {
         String key = "LOOKUP";
         Dynamo.deleteItem(key, lookup, tableName);
-        Watchr.log("DELETING WITH KEY " + key + " AND VALUE " + lookup + " FROM TABLE " + tableName);
+//        Watchr.log("DELETING WITH KEY " + key + " AND VALUE " + lookup + " FROM TABLE " + tableName);
     }
 
     public static void DELETE(String tableName)
