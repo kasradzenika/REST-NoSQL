@@ -3,12 +3,9 @@ package com.onenow.hedgefund.nosqlrest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.logging.Level;
 
-import com.onenow.hedgefund.aws.Dynamo;
-import com.onenow.hedgefund.logging.InitLogger;
 import com.onenow.hedgefund.logging.Watchr;
-import com.onenow.hedgefund.nosqlrest.beans.Model;
+import com.onenow.hedgefund.nosqlclient.ModelNosql;
 import com.onenow.hedgefund.nosqlrest.utils.ExceptionUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 import com.onenow.hedgefund.util.Piping;
@@ -29,12 +26,12 @@ public class NoSqlEndpoint
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response POST(Model model)
+    public Response POST(ModelNosql modelNosql)
     {
         try
         {
-            NoSqlService.POST(model.getLookup(), model.getItemJson(), model.getTableName());
-            return Response.ok(model).build();
+            NoSqlService.POST(modelNosql.getLookup(), modelNosql.getItemJson(), modelNosql.getTableName());
+            return Response.ok(modelNosql).build();
         }
         catch (Exception ex)
         {
@@ -46,11 +43,11 @@ public class NoSqlEndpoint
     @PUT
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response PUT(Model model)
+    public Response PUT(ModelNosql modelNosql)
     {
         try
         {
-            NoSqlService.PUT(model.getLookup(), model.getItemJson(), model.getTableName());
+            NoSqlService.PUT(modelNosql.getLookup(), modelNosql.getItemJson(), modelNosql.getTableName());
             return Response.ok().build();
         }
         catch (Exception ex)

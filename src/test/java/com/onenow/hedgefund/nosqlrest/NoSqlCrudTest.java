@@ -1,7 +1,7 @@
 //package com.onenow.hedgefund.nosql;
 //
 //import com.onenow.hedgefund.discovery.WhereAmI;
-//import com.onenow.hedgefund.nosql.beans.Model;
+//import com.onenow.hedgefund.nosql.beans.ModelNosql;
 //import com.sun.net.httpserver.HttpHandler;
 //import com.sun.net.httpserver.HttpServer;
 //import org.json.simple.JSONObject;
@@ -111,7 +111,7 @@
 //        json.put("tax", 0.5);
 //        json.put("stock", 25);
 //
-//        Model model = new Model();
+//        ModelNosql model = new ModelNosql();
 //        model.setLookup(lookup);
 //        model.setTableName(tableName);
 //        model.setItemJson(json.toJSONString());
@@ -136,7 +136,7 @@
 //        json.put("tax", 1);
 //        json.put("stock", 50);
 //
-//        Model model = new Model();
+//        ModelNosql model = new ModelNosql();
 //        model.setLookup(lookup);
 //        model.setTableName(tableName);
 //        model.setItemJson(json.toJSONString());
