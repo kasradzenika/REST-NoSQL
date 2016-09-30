@@ -5,6 +5,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.logging.Level;
 
+import com.onenow.hedgefund.aws.Dynamo;
 import com.onenow.hedgefund.logging.InitLogger;
 import com.onenow.hedgefund.logging.Watchr;
 import com.onenow.hedgefund.nosqlrest.beans.Model;
@@ -24,6 +25,22 @@ public class NoSqlEndpoint
 //            ex.printStackTrace();
 //        }
 //    }
+
+    @POST
+    @Path("/createTable")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response POST(String tableName)
+    {
+        try
+        {
+            return Response.ok(Dynamo.createTableIfDoesnotExist(tableName)).build();
+        }
+        catch (Exception ex)
+        {
+            Watchr.log(ExceptionUtil.exceptionToString(ex));
+            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
+        }
+    }
 
     @POST
     @Path("/")
