@@ -50,7 +50,7 @@ public class NoSqlEndpoint
         try
         {
             NoSqlService.POST(model.getLookup(), model.getItemJson(), model.getTableName());
-            return Response.ok().build();
+            return Response.ok(model).build();
         }
         catch (Exception ex)
         {
