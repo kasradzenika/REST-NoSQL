@@ -29,31 +29,28 @@ public class DynamoReadWrite
     public static void save(String key,
                             String value,
                             String tableName)
+            throws Exception
     {
-        try
-        {
-            DynamoTable dt = new DynamoTable(key, value);
-            Dynamo.mapper.save(dt, new DynamoDBMapperConfig(new DynamoDBMapperConfig.TableNameOverride(tableName)));
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        DynamoTable dt = new DynamoTable(key, value);
+        Dynamo.mapper.save(dt, new DynamoDBMapperConfig(new DynamoDBMapperConfig.TableNameOverride(tableName)));
     }
 
     public static void get(String lookup,
                            String tableName,
                            DynamoResponse response,
-                           DeployEnv nosqlEnv) {
+                           DeployEnv nosqlEnv)
+    {
 
         response.resources.addAll(DynamoTable.get(lookup, tableName, nosqlEnv));
     }
 
-    public static void get(String whenAt, String lookup, String tableName, DynamoResponse response, DeployEnv nosqlEnv) {
+    public static void get(String whenAt, String lookup, String tableName, DynamoResponse response, DeployEnv nosqlEnv)
+    {
         response.resources.addAll(DynamoTable.get(whenAt, lookup, tableName, nosqlEnv));
     }
 
-    public static void getByDateRange(String fromDate, String toDate, String tableName, DynamoResponse response, DeployEnv nosqlEnv) {
+    public static void getByDateRange(String fromDate, String toDate, String tableName, DynamoResponse response, DeployEnv nosqlEnv)
+    {
         response.resources.addAll(DynamoTable.getByDateRange(fromDate, toDate, tableName, nosqlEnv));
     }
 }
