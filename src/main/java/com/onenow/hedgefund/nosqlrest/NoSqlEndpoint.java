@@ -60,6 +60,21 @@ public class NoSqlEndpoint
     }
 
     @GET
+    @Path("/tables")
+    @Produces(MediaType.APPLICATION_JSON)
+    public static Response GET() {
+        try
+        {
+            return Response.ok(Piping.serialize(NoSqlService.GET_TABLE_NAMES())).build();
+        }
+        catch (Exception ex)
+        {
+            Watchr.log(ExceptionUtil.exceptionToString(ex));
+            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
+        }
+    }
+
+    @GET
     @Path("/table/{tableName}")
     @Produces(MediaType.APPLICATION_JSON)
     public static Response GET(@PathParam("tableName") String tableName, @QueryParam("ID") String lookup) {

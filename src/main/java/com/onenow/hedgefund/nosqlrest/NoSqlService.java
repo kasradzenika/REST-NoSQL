@@ -5,6 +5,8 @@ import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.logging.Watchr;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 
+import java.util.List;
+
 
 public class NoSqlService
 {
@@ -53,6 +55,12 @@ public class NoSqlService
 
 //        Watchr.log("GET() FROM " + tableName + " RETURNED RESPONSE " + response.resources.toString());
         return response;
+    }
+
+    public static List<String> GET_TABLE_NAMES()
+            throws Exception
+    {
+        return Dynamo.getTables();
     }
 
     public static DynamoResponse GET(String lookup,
