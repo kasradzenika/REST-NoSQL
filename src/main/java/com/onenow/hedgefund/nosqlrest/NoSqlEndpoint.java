@@ -27,9 +27,9 @@ public class NoSqlEndpoint
 //    }
 
     @POST
-    @Path("/createTable")
+    @Path("/createTable/{tableName}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response POST(String tableName)
+    public Response POST(@PathParam("tableName") String tableName)
     {
         try
         {
