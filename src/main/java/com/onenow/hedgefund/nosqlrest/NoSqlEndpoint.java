@@ -58,7 +58,8 @@ public class NoSqlEndpoint
     }
 
     @GET
-    // lists all the tables for all the DB environments: ie. CONTRACTS-DEVELOPMENT, CONTRACTS-STAGING
+    // lists all the tables for all the DB environments: ie. CONTRACTS-DEVELOPMENT, ORDERS-STAGING
+    // this is distinct from a "tableName", which include: CONTRACTS, ORDERS
     @Path("/tables")
     @Produces(MediaType.APPLICATION_JSON)
     public static Response GET() {
@@ -123,14 +124,14 @@ public class NoSqlEndpoint
     }
 
     @DELETE
-    @Path("/table/{tableLookupName}/{ID}")
+    @Path("/table/{tableName}/{ID}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response DELETE(@PathParam("ID") String lookup,
-                           @PathParam("tableLookupName") String tableLookupName)
+                           @PathParam("tableName") String tableName)
     {
         try
         {
-            NoSqlService.DELETE(lookup, tableLookupName);
+            NoSqlService.DELETE(lookup, tableName);
             return Response.ok().build();
         }
         catch (Exception ex)

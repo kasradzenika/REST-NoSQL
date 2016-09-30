@@ -76,11 +76,11 @@ public class NoSqlService
 
     public static DynamoResponse GET(String fromDate,
                                      String toDate,
-                                     String tableLookupName)
+                                     String tableName)
             throws Exception
     {
         DynamoResponse response = new DynamoResponse();
-        DynamoReadWrite.getByDateRange(fromDate, toDate, tableLookupName, response, nosqlDB);
+        DynamoReadWrite.getByDateRange(fromDate, toDate, LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
 
         //        Watchr.log("GET() RESPONSE " + response.resources.toString());
 
@@ -88,18 +88,18 @@ public class NoSqlService
     }
 
     public static void DELETE(String itemLookup,
-                              String tableLookupName)
+                              String tableName)
             throws Exception
     {
         String key = "LOOKUP";
-        Dynamo.deleteItem(key, itemLookup, tableLookupName);
+        Dynamo.deleteItem(key, itemLookup, LookupTable.getKey(tableName, nosqlDB));
         //        Watchr.log("DELETING WITH KEY " + key + " AND VALUE " + lookup + " FROM TABLE " + tableName);
     }
 
-    public static void DELETE(String tableLookupName)
+    public static void DELETE(String tableName)
             throws Exception
     {
-        Dynamo.deleteTable(tableLookupName);
+        Dynamo.deleteTable(LookupTable.getKey(tableName, nosqlDB));
     }
 
 }
