@@ -42,6 +42,23 @@ public class NoSqlEndpoint
         }
     }
 
+    @DELETE
+    @Path("/deleteTable/{tableName}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response DELETE(@PathParam("tableName") String tableName)
+    {
+        try
+        {
+            Dynamo.deleteTable(tableName);
+            return Response.ok().build();
+        }
+        catch (Exception ex)
+        {
+            Watchr.log(ExceptionUtil.exceptionToString(ex));
+            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
+        }
+    }
+
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)

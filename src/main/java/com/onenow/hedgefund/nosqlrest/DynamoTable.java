@@ -119,7 +119,7 @@ public class DynamoTable
         this.json = json;
     }
 
-    @DynamoDBRangeKey(attributeName = "date_time")
+    @DynamoDBAttribute(attributeName = "date_time")
     public String getDateTime()
     {
         return dateTime;
