@@ -30,7 +30,7 @@ public class NoSqlEndpoint
     {
         try
         {
-            NoSqlService.POST(modelNosql.getLookup(), modelNosql.getItemJson(), modelNosql.getTableName());
+            NoSqlService.POST(modelNosql.getItemKey(), modelNosql.getItemJson(), modelNosql.getTableName());
             return Response.ok(modelNosql).build();
         }
         catch (Exception ex)
@@ -47,7 +47,7 @@ public class NoSqlEndpoint
     {
         try
         {
-            NoSqlService.PUT(modelNosql.getLookup(), modelNosql.getItemJson(), modelNosql.getTableName());
+            NoSqlService.PUT(modelNosql.getItemKey(), modelNosql.getItemJson(), modelNosql.getTableName());
             return Response.ok().build();
         }
         catch (Exception ex)
