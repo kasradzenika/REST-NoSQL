@@ -71,13 +71,13 @@ public class NoSqlEndpoint
     @GET
     @Path("/{tableName}") // /table/{tableName}
     @Produces(MediaType.APPLICATION_JSON)
-    public static Response GET(@PathParam("tableName") String tableName) {
+    public static String GET(@PathParam("tableName") String tableName) {
         try {
-            return Response.ok(Piping.serialize(NoSqlService.GET(tableName))).build();
+            return (Piping.serialize(NoSqlService.GET(tableName)));
         }
         catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
-            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
+            return null;//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
 
