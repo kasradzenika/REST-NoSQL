@@ -70,7 +70,7 @@ public class NoSqlEndpoint
 
     @GET
     @Path("/{tableName}") // /table/{tableName}
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public static String GET(@PathParam("tableName") String tableName) {
         try {
             return (Piping.serialize(NoSqlService.GET(tableName)));
