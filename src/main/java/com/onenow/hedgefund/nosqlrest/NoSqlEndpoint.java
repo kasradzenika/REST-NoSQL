@@ -86,26 +86,27 @@ public class NoSqlEndpoint
             return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
-    @GET
-    @Path("/table/{tableName}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public static Response GET(@PathParam("tableName") String tableName, @QueryParam("ID") String lookup) {
-        try
-        {
-            if(lookup != null && !lookup.isEmpty())
-            {
-                return Response.ok(Piping.serialize(NoSqlService.GET(lookup, tableName))).build();
-            } else
-            {
-                return Response.ok(Piping.serialize(NoSqlService.GET(tableName))).build();
-            }
-        }
-        catch (Exception ex)
-        {
-            Watchr.log(ExceptionUtil.exceptionToString(ex));
-            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
-        }
-    }
+
+//    @GET
+//    @Path("/table/{tableName}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public static Response GET(@PathParam("tableName") String tableName, @QueryParam("ID") String lookup) {
+//        try
+//        {
+//            if(lookup != null && !lookup.isEmpty())
+//            {
+//                return Response.ok(Piping.serialize(NoSqlService.GET(lookup, tableName))).build();
+//            } else
+//            {
+//                return Response.ok(Piping.serialize(NoSqlService.GET(tableName))).build();
+//            }
+//        }
+//        catch (Exception ex)
+//        {
+//            Watchr.log(ExceptionUtil.exceptionToString(ex));
+//            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
+//        }
+//    }
 
     @GET
     @Path("/table/{tableName}/query")
