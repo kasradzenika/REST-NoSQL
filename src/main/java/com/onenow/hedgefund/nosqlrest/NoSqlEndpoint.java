@@ -24,12 +24,12 @@ public class NoSqlEndpoint
 //    }
 
     @POST
-    @Path("/")
+    @Path("/{tableName}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response POST(ModelNosql modelNosql)
+    public Response POST(ModelNosql modelNosql, @PathParam("tableName") String tableName)
     {
         try {
-            NoSqlService.POST(modelNosql.getItemKey(), modelNosql.getItemJson(), modelNosql.getTableName());
+            NoSqlService.POST(modelNosql.getItemKey(), modelNosql.getItemJson(), tableName);
             return Response.ok(modelNosql).build();
         }
         catch (Exception ex) {
@@ -39,12 +39,12 @@ public class NoSqlEndpoint
     }
 
     @PUT
-    @Path("/")
+    @Path("/{tableName}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response PUT(ModelNosql modelNosql)
+    public Response PUT(ModelNosql modelNosql, @PathParam("tableName") String tableName)
     {
         try {
-            NoSqlService.PUT(modelNosql.getItemKey(), modelNosql.getItemJson(), modelNosql.getTableName());
+            NoSqlService.PUT(modelNosql.getItemKey(), modelNosql.getItemJson(), tableName);
             return Response.ok().build();
         }
         catch (Exception ex) {
