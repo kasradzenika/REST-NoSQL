@@ -30,7 +30,7 @@ public class NoSqlEndpoint
     {
         try {
             NoSqlService.POST(modelNosql.getItemKey(), modelNosql.getItemJson(), tableName);
-            return Response.ok(modelNosql).build();
+            return Response.ok().build();
         }
         catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -57,14 +57,14 @@ public class NoSqlEndpoint
     // lists all the tables for all the DB environments: ie. CONTRACTS-DEVELOPMENT, ORDERS-STAGING
     // this is distinct from a "tableName", which include: CONTRACTS, ORDERS
     @Path("/") // tables
-    @Produces(MediaType.APPLICATION_JSON)
-    public static Response GET() {
+    @Produces(MediaType.TEXT_PLAIN)
+    public static String GET() {
         try {
-            return Response.ok(Piping.serialize(NoSqlService.GET_TABLE_NAMES())).build();
+            return (Piping.serialize(NoSqlService.GET_TABLE_NAMES()));
         }
         catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
-            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
+            return "{\"error\":\"" + ex + "\"}";//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
 
@@ -77,25 +77,25 @@ public class NoSqlEndpoint
         }
         catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
-            return null;//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
+            return "{\"error\":\"" + ex + "\"}";//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
 
     @GET
     @Path("/{tableName}/{ID}")  // /table/{tableName}/{ID}
-    @Produces(MediaType.APPLICATION_JSON)
-    public static Response GET(@PathParam("tableName") String tableName,
+    @Produces(MediaType.TEXT_PLAIN)
+    public static String GET(@PathParam("tableName") String tableName,
                                @PathParam("ID") String lookup) {
         try {
             if(lookup != null && !lookup.isEmpty()) {
-                return Response.ok(Piping.serialize(NoSqlService.GET(lookup, tableName))).build();
+                return (Piping.serialize(NoSqlService.GET(lookup, tableName)));
             } else {
-                return Response.ok(Piping.serialize(NoSqlService.GET(tableName))).build();
+                return (Piping.serialize(NoSqlService.GET(tableName)));
             }
         }
         catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
-            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
+            return "{\"error\":\"" + ex + "\"}";//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
 
@@ -122,8 +122,8 @@ public class NoSqlEndpoint
 
     @GET
     @Path("/{tableName}/query") // /table/{tableName}/query
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response GET(@PathParam("tableName") String tableName,
+    @Produces(MediaType.TEXT_PLAIN)
+    public String GET(@PathParam("tableName") String tableName,
                         @QueryParam("fromDate") String fromDate,
                         @QueryParam("toDate") String toDate,
                         @QueryParam("dateFormat") String dateFormat,
@@ -139,12 +139,12 @@ public class NoSqlEndpoint
         {
             DynamoResponse response = NoSqlService.GET(fromDate, toDate, tableName);
             String serialized = Piping.serialize(response);
-            return Response.ok(serialized).build();
+            return (serialized);
         }
         catch (Exception ex)
         {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
-            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
+            return "{\"error\":\"" + ex + "\"}";//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
 
