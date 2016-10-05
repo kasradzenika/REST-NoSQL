@@ -16,16 +16,15 @@ public class NoSqlService
 //    public static String tableName = LookupService.getDeployName(ServiceType.CONTRACTS.toString(), nosqlDB);
 
 
-    public NoSqlService()
-    {
+    public NoSqlService() {
 
     }
 
     public static void POST(String key,
                             String value,
                             String tableName)
-            throws Exception
-    {
+            throws Exception {
+
         Dynamo.createTableIfDoesnotExist(LookupTable.getKey(tableName, nosqlDB));
 
         DynamoReadWrite.save(key, value, LookupTable.getKey(tableName, nosqlDB));
@@ -35,20 +34,18 @@ public class NoSqlService
     public static void PUT(String key,
                            String value,
                            String tableName)
-            throws Exception
-    {
+            throws Exception {
         DynamoReadWrite.save(key, value, LookupTable.getKey(tableName, nosqlDB));
         //        Watchr.log("PUT TO TABLE <" + tableName + "> OF: " + value.toString());
     }
 
 
     public static DynamoResponse GET(String tableName)
-            throws Exception
-    {
+            throws Exception {
+
         DynamoResponse response = new DynamoResponse();
 
-        for (String lookup : Dynamo.getLookups(LookupTable.getKey(tableName, nosqlDB)))
-        {
+        for (String lookup : Dynamo.getLookups(LookupTable.getKey(tableName, nosqlDB))) {
             DynamoReadWrite.get(lookup, LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
         }
 
@@ -57,15 +54,15 @@ public class NoSqlService
     }
 
     public static List<String> GET_TABLE_NAMES()
-            throws Exception
-    {
+            throws Exception {
+
         return Dynamo.getTables();
     }
 
     public static DynamoResponse GET(String itemLookup,
                                      String tableName)
-            throws Exception
-    {
+            throws Exception {
+
         DynamoResponse response = new DynamoResponse();
         DynamoReadWrite.get(itemLookup, LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
 
@@ -77,8 +74,8 @@ public class NoSqlService
     public static DynamoResponse GET(String fromDate,
                                      String toDate,
                                      String tableName)
-            throws Exception
-    {
+            throws Exception {
+
         DynamoResponse response = new DynamoResponse();
         DynamoReadWrite.getByDateRange(fromDate, toDate, LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
 
@@ -89,8 +86,8 @@ public class NoSqlService
 
     public static void DELETE(String itemLookup,
                               String tableName)
-            throws Exception
-    {
+            throws Exception {
+
         String key = "LOOKUP";
         Dynamo.deleteItem(key, itemLookup, LookupTable.getKey(tableName, nosqlDB));
         //        Watchr.log("DELETING WITH KEY " + key + " AND VALUE " + lookup + " FROM TABLE " + tableName);

@@ -28,13 +28,11 @@ public class NoSqlEndpoint
     @Consumes(MediaType.APPLICATION_JSON)
     public Response POST(ModelNosql modelNosql)
     {
-        try
-        {
+        try {
             NoSqlService.POST(modelNosql.getItemKey(), modelNosql.getItemJson(), modelNosql.getTableName());
             return Response.ok(modelNosql).build();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
@@ -45,13 +43,11 @@ public class NoSqlEndpoint
     @Consumes(MediaType.APPLICATION_JSON)
     public Response PUT(ModelNosql modelNosql)
     {
-        try
-        {
+        try {
             NoSqlService.PUT(modelNosql.getItemKey(), modelNosql.getItemJson(), modelNosql.getTableName());
             return Response.ok().build();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
@@ -60,22 +56,20 @@ public class NoSqlEndpoint
     @GET
     // lists all the tables for all the DB environments: ie. CONTRACTS-DEVELOPMENT, ORDERS-STAGING
     // this is distinct from a "tableName", which include: CONTRACTS, ORDERS
-    @Path("/tables")
+    @Path("/") // tables
     @Produces(MediaType.APPLICATION_JSON)
     public static Response GET() {
-        try
-        {
+        try {
             return Response.ok(Piping.serialize(NoSqlService.GET_TABLE_NAMES())).build();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
 
     @GET
-    @Path("/table/{tableName}")
+    @Path("/{tableName}") // /table/{tableName}
     @Produces(MediaType.APPLICATION_JSON)
     public static Response GET(@PathParam("tableName") String tableName) {
         try {
@@ -88,7 +82,7 @@ public class NoSqlEndpoint
     }
 
     @GET
-    @Path("/table/{tableName}/{ID}")
+    @Path("/{tableName}/{ID}")  // /table/{tableName}/{ID}
     @Produces(MediaType.APPLICATION_JSON)
     public static Response GET(@PathParam("tableName") String tableName,
                                @PathParam("ID") String lookup) {
@@ -127,7 +121,7 @@ public class NoSqlEndpoint
 //    }
 
     @GET
-    @Path("/table/{tableName}/query")
+    @Path("/{tableName}/query") // /table/{tableName}/query
     @Produces(MediaType.APPLICATION_JSON)
     public Response GET(@PathParam("tableName") String tableName,
                         @QueryParam("fromDate") String fromDate,
@@ -155,7 +149,7 @@ public class NoSqlEndpoint
     }
 
     @DELETE
-    @Path("/table/{tableName}/{ID}")
+    @Path("/{tableName}/{ID}") // /table/{tableName}/{ID}
     @Consumes(MediaType.APPLICATION_JSON)
     public Response DELETE(@PathParam("tableName") String tableName,
                            @PathParam("ID") String lookup)
