@@ -87,6 +87,24 @@ public class NoSqlEndpoint
         }
     }
 
+    @GET
+    @Path("/table/{tableName}/{ID}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public static Response GET(@PathParam("tableName") String tableName,
+                               @PathParam("ID") String lookup) {
+        try {
+            if(lookup != null && !lookup.isEmpty()) {
+                return Response.ok(Piping.serialize(NoSqlService.GET(lookup, tableName))).build();
+            } else {
+                return Response.ok(Piping.serialize(NoSqlService.GET(tableName))).build();
+            }
+        }
+        catch (Exception ex) {
+            Watchr.log(ExceptionUtil.exceptionToString(ex));
+            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
+        }
+    }
+
 //    @GET
 //    @Path("/table/{tableName}")
 //    @Produces(MediaType.APPLICATION_JSON)
@@ -139,8 +157,8 @@ public class NoSqlEndpoint
     @DELETE
     @Path("/table/{tableName}/{ID}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response DELETE(@PathParam("ID") String lookup,
-                           @PathParam("tableName") String tableName)
+    public Response DELETE(@PathParam("tableName") String tableName,
+                           @PathParam("ID") String lookup)
     {
         try
         {
