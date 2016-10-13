@@ -60,7 +60,7 @@ public class DynamoTable
         for (DynamoTable item : Dynamo.mapper.query(DynamoTable.class, queryExpression, new DynamoDBMapperConfig(new DynamoDBMapperConfig.TableNameOverride(tableName))))
         {
             String json = item.getJson();
-            Watchr.log("ITEM: " + json);
+            // Watchr.log("ITEM: " + json);
             resources.add(new DynamoResource(json, nosqlDB));
         }
         return resources;

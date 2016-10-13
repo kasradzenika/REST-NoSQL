@@ -4,7 +4,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.onenow.hedgefund.logging.Watchr;
+import com.onenow.hedgefund.nosqlclient.DynamoResource;
 import com.onenow.hedgefund.nosqlclient.ModelNosql;
 import com.onenow.hedgefund.nosqlrest.utils.ExceptionUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
@@ -73,7 +76,11 @@ public class NoSqlEndpoint
     @Produces(MediaType.TEXT_PLAIN)
     public static String GET(@PathParam("tableName") String tableName) {
         try {
-            return (Piping.serialize(NoSqlService.GET(tableName)));
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(DynamoResource.class, new DynamoResourceSerializer())
+                    .create();
+            DynamoResponse items = NoSqlService.GET(tableName);
+            return gson.toJson(items);
         }
         catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -129,7 +136,6 @@ public class NoSqlEndpoint
                         @QueryParam("dateFormat") String dateFormat,
                         @QueryParam("timeZone") String timeZone)
     {
-
         // String log = "INPUT: " + fromDate + " " + toDate + " " + dateFormat + " " + timeZone;
         // Watchr.log(log);
 
