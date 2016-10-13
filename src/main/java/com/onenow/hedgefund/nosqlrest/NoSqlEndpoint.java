@@ -14,8 +14,7 @@ import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 import com.onenow.hedgefund.util.Piping;
 
 @Path("/nosql")
-public class NoSqlEndpoint
-{
+public class NoSqlEndpoint {
 
 //    static {
 //        try
@@ -29,13 +28,11 @@ public class NoSqlEndpoint
     @POST
     @Path("/{tableName}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response POST(ModelNosql modelNosql, @PathParam("tableName") String tableName)
-    {
+    public Response POST(ModelNosql modelNosql, @PathParam("tableName") String tableName) {
         try {
             NoSqlService.POST(modelNosql.getItemKey(), modelNosql.getItemJson(), tableName);
             return Response.ok().build();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
@@ -44,13 +41,11 @@ public class NoSqlEndpoint
     @PUT
     @Path("/{tableName}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response PUT(ModelNosql modelNosql, @PathParam("tableName") String tableName)
-    {
+    public Response PUT(ModelNosql modelNosql, @PathParam("tableName") String tableName) {
         try {
             NoSqlService.PUT(modelNosql.getItemKey(), modelNosql.getItemJson(), tableName);
             return Response.ok().build();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
@@ -64,8 +59,7 @@ public class NoSqlEndpoint
     public static String GET() {
         try {
             return (Piping.serialize(NoSqlService.GET_TABLE_NAMES()));
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return "{\"error\":\"" + ex + "\"}";//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
@@ -81,8 +75,7 @@ public class NoSqlEndpoint
                     .create();
             DynamoResponse items = NoSqlService.GET(tableName);
             return gson.toJson(items);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return "{\"error\":\"" + ex + "\"}";//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
@@ -92,15 +85,14 @@ public class NoSqlEndpoint
     @Path("/{tableName}/{ID}")  // /table/{tableName}/{ID}
     @Produces(MediaType.TEXT_PLAIN)
     public static String GET(@PathParam("tableName") String tableName,
-                               @PathParam("ID") String lookup) {
+                             @PathParam("ID") String lookup) {
         try {
-            if(lookup != null && !lookup.isEmpty()) {
+            if (lookup != null && !lookup.isEmpty()) {
                 return (Piping.serialize(NoSqlService.GET(lookup, tableName)));
             } else {
                 return (Piping.serialize(NoSqlService.GET(tableName)));
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return "{\"error\":\"" + ex + "\"}";//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
@@ -131,24 +123,20 @@ public class NoSqlEndpoint
     @Path("/{tableName}/query") // /table/{tableName}/query
     @Produces(MediaType.TEXT_PLAIN)
     public String GET(@PathParam("tableName") String tableName,
-                        @QueryParam("fromDate") String fromDate,
-                        @QueryParam("toDate") String toDate,
-                        @QueryParam("dateFormat") String dateFormat,
-                        @QueryParam("timeZone") String timeZone)
-    {
+                      @QueryParam("fromDate") String fromDate,
+                      @QueryParam("toDate") String toDate,
+                      @QueryParam("dateFormat") String dateFormat,
+                      @QueryParam("timeZone") String timeZone) {
         // String log = "INPUT: " + fromDate + " " + toDate + " " + dateFormat + " " + timeZone;
         // Watchr.log(log);
 
         // TODO LATER: date format change if necessary... dateFormat, timeZone
 
-        try
-        {
+        try {
             DynamoResponse response = NoSqlService.GET(fromDate, toDate, tableName);
             String serialized = Piping.serialize(response);
             return (serialized);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return "{\"error\":\"" + ex + "\"}";//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
@@ -158,18 +146,13 @@ public class NoSqlEndpoint
     @Path("/{tableName}/{ID}") // /table/{tableName}/{ID}
     @Consumes(MediaType.APPLICATION_JSON)
     public Response DELETE(@PathParam("tableName") String tableName,
-                           @PathParam("ID") String lookup)
-    {
-        try
-        {
+                           @PathParam("ID") String lookup) {
+        try {
             NoSqlService.DELETE(lookup, tableName);
             return Response.ok().build();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
-
 }
