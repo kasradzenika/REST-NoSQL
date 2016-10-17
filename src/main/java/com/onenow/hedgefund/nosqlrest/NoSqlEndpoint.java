@@ -70,15 +70,19 @@ public class NoSqlEndpoint {
     @Produces(MediaType.TEXT_PLAIN)
     public static String GET(@PathParam("tableName") String tableName) {
         try {
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(DynamoResource.class, new DynamoResourceSerializer())
-                    .create();
             DynamoResponse items = NoSqlService.GET(tableName);
-            return gson.toJson(items);
+            return getJson(items);
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return "{\"error\":\"" + ex + "\"}";//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
+    }
+
+    private static String getJson(DynamoResponse items) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(DynamoResource.class, new DynamoResourceSerializer())
+                .create();
+        return gson.toJson(items);
     }
 
     @GET
@@ -88,9 +92,11 @@ public class NoSqlEndpoint {
                              @PathParam("ID") String lookup) {
         try {
             if (lookup != null && !lookup.isEmpty()) {
-                return (Piping.serialize(NoSqlService.GET(lookup, tableName)));
+                DynamoResponse items = NoSqlService.GET(lookup, tableName);
+                return getJson(items);
             } else {
-                return (Piping.serialize(NoSqlService.GET(tableName)));
+                DynamoResponse items = NoSqlService.GET(tableName);
+                return getJson(items);
             }
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
