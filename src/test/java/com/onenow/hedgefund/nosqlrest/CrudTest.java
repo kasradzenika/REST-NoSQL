@@ -9,7 +9,16 @@ import org.testng.annotations.Test;
 public class CrudTest {
 
     @Test
-    public void getTest() {
+    public void getOrders() {
+        try {
+            NoSqlService.GET(TableName.ORDERS.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void getContracts() {
         try {
             NoSqlService.GET(TableName.CONTRACTS.toString());
         } catch (Exception e) {

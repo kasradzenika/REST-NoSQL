@@ -43,6 +43,8 @@ public class NoSqlService
     public static DynamoResponse GET(String tableName)
             throws Exception {
 
+        Dynamo.createTableIfDoesnotExist(LookupTable.getKey(tableName, nosqlDB));
+
         DynamoResponse response = new DynamoResponse();
 
         for (String lookup : Dynamo.getLookups(LookupTable.getKey(tableName, nosqlDB))) {
