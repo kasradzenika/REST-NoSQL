@@ -1,6 +1,7 @@
 package com.onenow.hedgefund.nosqlrest;
 
 import com.onenow.hedgefund.aws.Dynamo;
+import com.onenow.hedgefund.discovery.WhereAmI;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 
@@ -10,10 +11,7 @@ import java.util.List;
 public class NoSqlService
 {
 
-    // TODO: actual environment
-    private static DeployEnv nosqlDB = DeployEnv.STAGING; // WhereAmI.getDBname();
-
-//    public static String tableName = LookupService.getDeployName(ServiceType.CONTRACTS.toString(), nosqlDB);
+    private static DeployEnv nosqlDB = WhereAmI.getEnvNosql();
 
 
     public NoSqlService() {
