@@ -71,13 +71,13 @@ public class NoSqlService
         return response;
     }
 
-    public static DynamoResponse GET(String fromDate,
-                                     String toDate,
-                                     String tableName)
+    public static DynamoResponse GET(String tableName,
+                                     String fromDate, String toDate, String dateFormat, String timeZone)
             throws Exception {
 
         DynamoResponse response = new DynamoResponse();
-        DynamoReadWrite.getByDateRange(fromDate, toDate, LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
+        DynamoReadWrite.getByDateRange(fromDate, toDate,
+                LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
 
         //        Watchr.log("GET() RESPONSE " + response.resources.toString());
 

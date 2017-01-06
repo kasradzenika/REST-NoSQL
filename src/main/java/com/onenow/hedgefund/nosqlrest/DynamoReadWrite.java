@@ -51,8 +51,10 @@ public class DynamoReadWrite
         response.resources.addAll(DynamoTable.get(whenAt, lookup, tableName, nosqlDB));
     }
 
-    public static void getByDateRange(String fromDate, String toDate, String tableName, DynamoResponse response, DeployEnv nosqlDB)
+    public static void getByDateRange(String fromDate, String toDate, String dateFormat, String timeZone,
+                                      String tableName, DynamoResponse response, DeployEnv nosqlDB)
     {
-        response.resources.addAll(DynamoTable.getByDateRange(fromDate, toDate, tableName, nosqlDB));
+        response.resources.addAll(DynamoTable.getByDateRange(fromDate, toDate, dateFormat, timeZone,
+                tableName, nosqlDB));
     }
 }

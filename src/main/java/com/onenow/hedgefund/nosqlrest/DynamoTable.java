@@ -66,9 +66,11 @@ public class DynamoTable
         return resources;
     }
 
-    public static List<DynamoResource> getByDateRange(String fromDate, String toDate, String tableName,
-                                           DeployEnv nosqlDB)
-    {
+    // SAMPLE INPUTS
+    // defaultFormat = "yyyy-MM-dd HH:mm:ss";
+    // defaultTimeZone = "UTC";
+    public static List<DynamoResource> getByDateRange(String fromDate, String toDate, String dateFormat, String timeZone,
+                                                      String tableName, DeployEnv nosqlDB) {
         List<DynamoResource> resources = new ArrayList<>();
 
         Map<String, AttributeValue> eav = new HashMap<>();

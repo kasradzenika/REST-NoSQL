@@ -19,7 +19,7 @@ public class NoSqlEndpoint {
 //    static {
 //        try
 //        {
-//            InitLogger.run(Level.FINEST);
+//            InitLogger.run();
 //        } catch (Exception ex) {
 //            ex.printStackTrace();
 //        }
@@ -139,7 +139,7 @@ public class NoSqlEndpoint {
         // TODO LATER: date format change if necessary... dateFormat, timeZone
 
         try {
-            DynamoResponse response = NoSqlService.GET(fromDate, toDate, tableName);
+            DynamoResponse response = NoSqlService.GET(tableName, fromDate, toDate, dateFormat, timeZone);
             String serialized = Piping.serialize(response);
             return (serialized);
         } catch (Exception ex) {
