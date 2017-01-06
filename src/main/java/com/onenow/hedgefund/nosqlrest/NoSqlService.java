@@ -76,7 +76,7 @@ public class NoSqlService
             throws Exception {
 
         DynamoResponse response = new DynamoResponse();
-        DynamoReadWrite.getByDateRange(fromDate, toDate,
+        DynamoReadWrite.getByDateRange(fromDate, toDate, dateFormat, timeZone,
                 LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
 
         //        Watchr.log("GET() RESPONSE " + response.resources.toString());
