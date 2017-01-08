@@ -1,6 +1,7 @@
 package com.onenow.hedgefund.nosqlrest;
 
 import com.onenow.hedgefund.aws.Dynamo;
+import com.onenow.hedgefund.discovery.EnvironmentDatabase;
 import com.onenow.hedgefund.discovery.WhereAmI;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
@@ -11,7 +12,7 @@ import java.util.List;
 public class NoSqlService
 {
 
-    private static DeployEnv nosqlDB = WhereAmI.getEnvNosql();
+    private static DeployEnv nosqlDB = EnvironmentDatabase.getNosqlValue();
 
 
     public NoSqlService() {
