@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.onenow.hedgefund.aws.Dynamo;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.logging.Watchr;
+import com.onenow.hedgefund.nosqlrest.utils.AppConsants;
 import com.onenow.hedgefund.nosqlrest.utils.DateUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResource;
 
@@ -72,6 +73,12 @@ public class DynamoTable
     public static List<DynamoResource> getByDateRange(String fromDate, String toDate, String dateFormat, String timeZone,
                                                       String tableName, DeployEnv nosqlDB) {
         List<DynamoResource> resources = new ArrayList<>();
+
+        /**
+         * Needs to verify, waiting for permission
+         * */
+//        fromDate = DateUtil.getDate(DateUtil.getDate(fromDate, timeZone, dateFormat), AppConsants.DEFAULT_TIMEZONE, AppConsants.DEFAULT_DATE_FORMAT);
+//        toDate = DateUtil.getDate(DateUtil.getDate(toDate, timeZone, dateFormat), AppConsants.DEFAULT_TIMEZONE, AppConsants.DEFAULT_DATE_FORMAT);
 
         Map<String, AttributeValue> eav = new HashMap<>();
         eav.put(":val1", new AttributeValue().withS(fromDate));
