@@ -77,8 +77,8 @@ public class DynamoTable
         /**
          * Needs to verify, waiting for permission
          * */
-//        fromDate = DateUtil.getDate(DateUtil.getDate(fromDate, timeZone, dateFormat), AppConsants.DEFAULT_TIMEZONE, AppConsants.DEFAULT_DATE_FORMAT);
-//        toDate = DateUtil.getDate(DateUtil.getDate(toDate, timeZone, dateFormat), AppConsants.DEFAULT_TIMEZONE, AppConsants.DEFAULT_DATE_FORMAT);
+        fromDate = DateUtil.getDate(DateUtil.getDate(fromDate, timeZone, dateFormat), AppConsants.DEFAULT_TIMEZONE, AppConsants.DEFAULT_DATE_FORMAT);
+        toDate = DateUtil.getDate(DateUtil.getDate(toDate, timeZone, dateFormat), AppConsants.DEFAULT_TIMEZONE, AppConsants.DEFAULT_DATE_FORMAT);
 
         Map<String, AttributeValue> eav = new HashMap<>();
         eav.put(":val1", new AttributeValue().withS(fromDate));
