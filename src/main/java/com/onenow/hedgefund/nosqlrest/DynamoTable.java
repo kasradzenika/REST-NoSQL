@@ -15,9 +15,10 @@ import java.util.List;
 import java.util.Map;
 
 @DynamoDBTable(tableName = "")
-public class DynamoTable
-        extends DynamoReadWrite
-{
+public class DynamoTable extends DynamoReadWrite {
+
+    private static String columnName = "date_time"; // dateTime is protected
+
 
     public DynamoTable()
     {
@@ -41,7 +42,7 @@ public class DynamoTable
         eav.put(":val2", new AttributeValue().withS(lookup));
 
         DynamoDBQueryExpression<DynamoTable> queryExpression = new DynamoDBQueryExpression<DynamoTable>()
-                .withKeyConditionExpression("dateTime = :val1 and lookup = :val2")
+                .withKeyConditionExpression(columnName + " " + " = :val1 and lookup = :val2")
                 .withExpressionAttributeValues(eav);
 
         for (DynamoTable item : Dynamo.mapper.query(DynamoTable.class, queryExpression, new DynamoDBMapperConfig(new DynamoDBMapperConfig.TableNameOverride(tableName))))
@@ -84,8 +85,9 @@ public class DynamoTable
         eav.put(":val1", new AttributeValue().withS(fromDate));
         eav.put(":val2", new AttributeValue().withS(toDate));
 
+        // TODO: com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException: Query condition missed key schema element: LOOKUP
         DynamoDBQueryExpression<DynamoTable> queryExpression = new DynamoDBQueryExpression<DynamoTable>()
-                .withKeyConditionExpression("dateTime between :val1 and :val2")
+                .withKeyConditionExpression(columnName + " " + "between :val1 and :val2")
                 .withExpressionAttributeValues(eav);
 
         for (DynamoTable item : Dynamo.mapper.query(DynamoTable.class, queryExpression, new DynamoDBMapperConfig(new DynamoDBMapperConfig.TableNameOverride(tableName))))
