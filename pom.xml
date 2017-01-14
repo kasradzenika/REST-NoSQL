@@ -16,6 +16,7 @@
         <this.artifact>rest-nosql</this.artifact>
 
         <!-- VERSIONS -->
+        <version.joda>2.9.7</version.joda>
         <version.aws-java-sdk>1.11.41</version.aws-java-sdk> <!-- 1.10.54 1.10.8 ... 1.10.52 -->
         <version.genison>0.93</version.genison>
         <version.jackson>2.7.3</version.jackson>
@@ -71,6 +72,12 @@
 
     <!-- DEPENDENCIES TO PULL -->
     <dependencies>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${version.joda}</version>
+        </dependency>
 
         <!-- OWN: NoSQL client -->
         <dependency>
