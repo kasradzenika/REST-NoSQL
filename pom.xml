@@ -17,18 +17,12 @@
 
         <!-- VERSIONS -->
         <version.cors>1.3.2</version.cors>
-        <version.httpclient>4.5.2</version.httpclient>
-        <version.joda>2.9.7</version.joda>
         <version.aws-java-sdk>1.11.78</version.aws-java-sdk> <!-- 1.10.54 1.10.8 ... 1.10.52 -->
         <version.genison>0.93</version.genison>
         <version.jackson>2.7.3</version.jackson>
         <version.jersey>1.9</version.jersey>
         <version.jetty>6.1.10</version.jetty>
         <version.testng>6.9.6</version.testng>
-        <version.amazonKinesisClient>1.3.0</version.amazonKinesisClient>
-        <version.amazonKinesisSdk>1.9.39</version.amazonKinesisSdk>
-        <version.amazonKinesisConnectors>1.1.2</version.amazonKinesisConnectors>
-        <version.amazonKinesisStorm>1.1.1</version.amazonKinesisStorm>
         <version.maven-compiler-plugin>3.3</version.maven-compiler-plugin>
         <version.maven-shade-plugin>2.4.1</version.maven-shade-plugin>
         <version.maven-jar-plugin>2.4</version.maven-jar-plugin>
@@ -89,25 +83,6 @@
             <version>LATEST</version>
         </dependency>
 
-        <!-- JAX-RS REST WEB SERVICES VIA JERSEY -->
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-server</artifactId>
-            <version>${version.jersey}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jersey.contribs</groupId>
-            <artifactId>jersey-multipart</artifactId>
-            <version>${version.jersey}</version>
-        </dependency>
-
-        <!-- GOOGLE GSON TEXT/JSON/MEDIA CONVERTER -->
-        <dependency>
-            <groupId>com.owlike</groupId>
-            <artifactId>genson</artifactId>
-            <version>${version.genison}</version>
-        </dependency>
-
         <!-- OWN: LOGGING -->
         <dependency>
             <groupId>${this.groupId}</groupId>
@@ -149,7 +124,34 @@
             <!--<version>1.1.1</version>-->
         <!--</dependency>-->
 
-        <!--DYNAMO JACKSON DEPENDENCY-->
+        <!-- GOOGLE GSON TEXT/JSON/MEDIA CONVERTER -->
+        <dependency>
+            <groupId>com.owlike</groupId>
+            <artifactId>genson</artifactId>
+            <version>${version.genison}</version>
+        </dependency>
+
+        <!-- TESTING -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${version.testng}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JAX-RS REST WEB SERVICES VIA JERSEY -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${version.jersey}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-multipart</artifactId>
+            <version>${version.jersey}</version>
+        </dependency>
+
+        <!--DYNAMODB JACKSON-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -166,27 +168,12 @@
             <version>${version.jackson}</version>
         </dependency>
 
-        <!-- TESTING -->
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${version.testng}</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- CORS filter -->
         <dependency>
             <groupId>com.thetransactioncompany</groupId>
             <artifactId>cors-filter</artifactId>
             <version>${version.cors}</version>
         </dependency>
-
-        <!--&lt;!&ndash;JODA&ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>joda-time</groupId>-->
-            <!--<artifactId>joda-time</artifactId>-->
-            <!--<version>${version.joda}</version>-->
-        <!--</dependency>-->
 
 
     </dependencies>
