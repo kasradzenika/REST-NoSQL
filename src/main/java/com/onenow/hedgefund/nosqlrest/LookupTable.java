@@ -8,8 +8,8 @@ import com.onenow.hedgefund.discrete.TableName;
  */
 public class LookupTable {
 
-    public static String getKey(TableName tableName, DeployEnv nosqlDB) {
+    public static String getKey(TableName tableName, DeployEnv env) {
 
-        return tableName+"-"+nosqlDB;
+        return tableName.toString().toUpperCase()+"-"+env.toString();
     }
 }
