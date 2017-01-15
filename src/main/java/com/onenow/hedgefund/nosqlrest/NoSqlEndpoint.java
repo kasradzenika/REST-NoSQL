@@ -6,6 +6,7 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.onenow.hedgefund.discrete.TableName;
 import com.onenow.hedgefund.logging.Watchr;
 import com.onenow.hedgefund.nosqlclient.DynamoResource;
 import com.onenow.hedgefund.nosqlclient.ModelNosql;
@@ -30,7 +31,7 @@ public class NoSqlEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response POST(ModelNosql modelNosql, @PathParam("tableName") String tableName) {
         try {
-            NoSqlService.POST(modelNosql.getItemKey(), modelNosql.getItemJson(), tableName);
+            NoSqlService.POST(modelNosql.getItemKey(), modelNosql.getItemJson(), TableName.valueOf(tableName));
             return Response.ok().build();
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -43,7 +44,7 @@ public class NoSqlEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response PUT(ModelNosql modelNosql, @PathParam("tableName") String tableName) {
         try {
-            NoSqlService.PUT(modelNosql.getItemKey(), modelNosql.getItemJson(), tableName);
+            NoSqlService.PUT(modelNosql.getItemKey(), modelNosql.getItemJson(), TableName.valueOf(tableName));
             return Response.ok().build();
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -70,7 +71,7 @@ public class NoSqlEndpoint {
     @Produces(MediaType.TEXT_PLAIN)
     public static String GET(@PathParam("tableName") String tableName) {
         try {
-            DynamoResponse items = NoSqlService.GET(tableName);
+            DynamoResponse items = NoSqlService.GET(TableName.valueOf(tableName));
             return getJson(items);
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -92,10 +93,10 @@ public class NoSqlEndpoint {
                              @PathParam("ID") String lookup) {
         try {
             if (lookup != null && !lookup.isEmpty()) {
-                DynamoResponse items = NoSqlService.GET(lookup, tableName);
+                DynamoResponse items = NoSqlService.GET(lookup, TableName.valueOf(tableName));
                 return getJson(items);
             } else {
-                DynamoResponse items = NoSqlService.GET(tableName);
+                DynamoResponse items = NoSqlService.GET(TableName.valueOf(tableName));
                 return getJson(items);
             }
         } catch (Exception ex) {
@@ -139,7 +140,7 @@ public class NoSqlEndpoint {
         // TODO LATER: date format change if necessary... dateFormat, timeZone
 
         try {
-            DynamoResponse response = NoSqlService.GET(tableName, fromDate, toDate, dateFormat, timeZone);
+            DynamoResponse response = NoSqlService.GET(TableName.valueOf(tableName), fromDate, toDate, dateFormat, timeZone);
             String serialized = Piping.serialize(response);
             return (serialized);
         } catch (Exception ex) {
@@ -154,7 +155,7 @@ public class NoSqlEndpoint {
     public Response DELETE(@PathParam("tableName") String tableName,
                            @PathParam("ID") String lookup) {
         try {
-            NoSqlService.DELETE(lookup, tableName);
+            NoSqlService.DELETE(lookup, TableName.valueOf(tableName));
             return Response.ok().build();
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));

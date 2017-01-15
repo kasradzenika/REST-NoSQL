@@ -4,6 +4,7 @@ import com.onenow.hedgefund.aws.Dynamo;
 import com.onenow.hedgefund.discovery.EnvironmentDatabase;
 import com.onenow.hedgefund.discovery.WhereAmI;
 import com.onenow.hedgefund.discrete.DeployEnv;
+import com.onenow.hedgefund.discrete.TableName;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class NoSqlService
 
     public static void POST(String key,
                             String value,
-                            String tableName)
+                            TableName tableName)
             throws Exception {
 
         Dynamo.createTableIfDoesnotExist(LookupTable.getKey(tableName, nosqlDB));
@@ -32,14 +33,14 @@ public class NoSqlService
 
     public static void PUT(String key,
                            String value,
-                           String tableName)
+                           TableName tableName)
             throws Exception {
         DynamoReadWrite.save(key, value, LookupTable.getKey(tableName, nosqlDB));
         //        Watchr.log("PUT TO TABLE <" + tableName + "> OF: " + value.toString());
     }
 
 
-    public static DynamoResponse GET(String tableName)
+    public static DynamoResponse GET(TableName tableName)
             throws Exception {
 
         Dynamo.createTableIfDoesnotExist(LookupTable.getKey(tableName, nosqlDB));
@@ -61,7 +62,7 @@ public class NoSqlService
     }
 
     public static DynamoResponse GET(String itemLookup,
-                                     String tableName)
+                                     TableName tableName)
             throws Exception {
 
         DynamoResponse response = new DynamoResponse();
@@ -72,7 +73,7 @@ public class NoSqlService
         return response;
     }
 
-    public static DynamoResponse GET(String tableName,
+    public static DynamoResponse GET(TableName tableName,
                                      String fromDate, String toDate, String dateFormat, String timeZone)
             throws Exception {
 
@@ -86,7 +87,7 @@ public class NoSqlService
     }
 
     public static void DELETE(String itemLookup,
-                              String tableName)
+                              TableName tableName)
             throws Exception {
 
         String key = "LOOKUP";
@@ -94,7 +95,7 @@ public class NoSqlService
         //        Watchr.log("DELETING WITH KEY " + key + " AND VALUE " + lookup + " FROM TABLE " + tableName);
     }
 
-    public static void DELETE(String tableName)
+    public static void DELETE(TableName tableName)
             throws Exception
     {
         Dynamo.deleteTable(LookupTable.getKey(tableName, nosqlDB));

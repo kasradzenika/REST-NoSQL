@@ -17,7 +17,7 @@ public class QueryTest {
         DynamoResponse response = null;
         try
         {
-            response = NoSqlService.GET(TableName.CONTRACTS.toString(),
+            response = NoSqlService.GET(TableName.CONTRACTS,
                                         "2016-01-01 00:00:00",
                                         "2016-12-31 23:59:59",
                                         "yyyy-MM-dd hh:mm:ss",

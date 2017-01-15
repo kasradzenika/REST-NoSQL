@@ -18,7 +18,7 @@ public class CrudTest
         DynamoResponse response = null;
         try
         {
-            response = NoSqlService.GET("SPY-STOCK", TableName.INVESTMENTS.toString());
+            response = NoSqlService.GET("SPY-STOCK", TableName.INVESTMENTS);
             Watchr.log("RESPONSE " + response);
         }
         catch (Exception e)
@@ -35,7 +35,7 @@ public class CrudTest
         DynamoResponse response = null;
         try
         {
-            response = NoSqlService.GET("SRTY-STOCK", TableName.CONTRACTS.toString());
+            response = NoSqlService.GET("SRTY-STOCK", TableName.CONTRACTS);
             Watchr.log("RESPONSE " + response);
         }
         catch (Exception e)
