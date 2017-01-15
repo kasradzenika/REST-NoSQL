@@ -1,8 +1,7 @@
 package com.onenow.hedgefund.nosqlrest;
 
-import com.onenow.hedgefund.aws.Dynamo;
+import com.onenow.hedgefund.dynamo.Dynamo;
 import com.onenow.hedgefund.discovery.EnvironmentDatabase;
-import com.onenow.hedgefund.discovery.WhereAmI;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.discrete.TableName;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;

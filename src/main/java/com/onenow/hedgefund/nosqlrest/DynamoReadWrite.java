@@ -1,7 +1,7 @@
 package com.onenow.hedgefund.nosqlrest;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
-import com.onenow.hedgefund.aws.Dynamo;
+import com.onenow.hedgefund.dynamo.Dynamo;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 

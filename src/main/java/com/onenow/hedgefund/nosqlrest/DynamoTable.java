@@ -2,8 +2,8 @@ package com.onenow.hedgefund.nosqlrest;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.onenow.hedgefund.aws.Dynamo;
 import com.onenow.hedgefund.discrete.DeployEnv;
+import com.onenow.hedgefund.dynamo.*;
 import com.onenow.hedgefund.logging.Watchr;
 import com.onenow.hedgefund.nosqlrest.utils.AppConsants;
 import com.onenow.hedgefund.nosqlrest.utils.DateUtil;
