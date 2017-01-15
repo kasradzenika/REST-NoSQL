@@ -16,6 +16,7 @@
         <this.artifact>rest-nosql</this.artifact>
 
         <!-- VERSIONS -->
+        <version.joda>2.9.7</version.joda>
         <version.cors>1.3.2</version.cors>
         <version.aws-java-sdk>1.11.78</version.aws-java-sdk> <!-- 1.10.54 1.10.8 ... 1.10.52 -->
         <version.genison>0.93</version.genison>
@@ -118,11 +119,6 @@
             <artifactId>aws-java-sdk</artifactId>
             <version>${version.aws-java-sdk}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.amazonaws</groupId>-->
-            <!--<artifactId>aws-apigateway-sdk-java</artifactId>-->
-            <!--<version>1.1.1</version>-->
-        <!--</dependency>-->
 
         <!-- GOOGLE GSON TEXT/JSON/MEDIA CONVERTER -->
         <dependency>
@@ -151,7 +147,7 @@
             <version>${version.jersey}</version>
         </dependency>
 
-        <!--JAXRS JACKSON-->
+        <!--JAX-RS JACKSON-->
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
@@ -173,6 +169,13 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${version.jackson}</version>
+        </dependency>
+
+        <!--DYNAMODB JODA-->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${version.joda}</version>
         </dependency>
 
         <!-- CORS filter -->
