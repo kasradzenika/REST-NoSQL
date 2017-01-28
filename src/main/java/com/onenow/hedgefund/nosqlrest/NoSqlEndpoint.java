@@ -17,15 +17,6 @@ import com.onenow.hedgefund.util.Piping;
 @Path("/nosql")
 public class NoSqlEndpoint {
 
-//    static {
-//        try
-//        {
-//            InitLogger.run();
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//    }
-
     @POST
     @Path("/{tableName}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -53,8 +44,6 @@ public class NoSqlEndpoint {
     }
 
     @GET
-    // lists all the tables for all the DB environments: ie. CONTRACTS-DEVELOPMENT, ORDERS-STAGING
-    // this is distinct from a "tableName", which include: CONTRACTS, ORDERS
     @Path("/") // tables
     @Produces(MediaType.TEXT_PLAIN)
     public static String GET() {
@@ -104,27 +93,6 @@ public class NoSqlEndpoint {
             return "{\"error\":\"" + ex + "\"}";//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
-
-//    @GET
-//    @Path("/table/{tableName}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public static Response GET(@PathParam("tableName") String tableName, @QueryParam("ID") String lookup) {
-//        try
-//        {
-//            if(lookup != null && !lookup.isEmpty())
-//            {
-//                return Response.ok(Piping.serialize(NoSqlService.GET(lookup, tableName))).build();
-//            } else
-//            {
-//                return Response.ok(Piping.serialize(NoSqlService.GET(tableName))).build();
-//            }
-//        }
-//        catch (Exception ex)
-//        {
-//            Watchr.log(ExceptionUtil.exceptionToString(ex));
-//            return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
-//        }
-//    }
 
     @GET
     @Path("/{tableName}/query") // /table/{tableName}/query

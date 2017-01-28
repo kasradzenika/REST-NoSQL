@@ -14,6 +14,7 @@ import com.google.gson.JsonSerializationContext;
 import com.onenow.hedgefund.nosqlclient.DynamoResource;
 
 public class DynamoResourceSerializer implements JsonSerializer<DynamoResource> {
+
     @Override
     public JsonElement serialize(final DynamoResource value, final Type type,
                                  final JsonSerializationContext context) {

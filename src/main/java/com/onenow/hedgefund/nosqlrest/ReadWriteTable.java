@@ -26,15 +26,13 @@ public class ReadWriteTable extends ReadWrite {
     }
 
     public ReadWriteTable(String lookup,
-                          String json)
-    {
+                          String json) {
         super(lookup, json);
         super.dateTime = DateUtil.getCurrentDate();
     }
 
     public static List<DynamoResource> get(String whenAt, String lookup, String tableName,
-                                           DeployEnv nosqlDB)
-    {
+                                           DeployEnv nosqlDB) {
         List<DynamoResource> resources = new ArrayList<>();
 
         Map<String, AttributeValue> eav = new HashMap<>();
@@ -60,8 +58,7 @@ public class ReadWriteTable extends ReadWrite {
 
 
     public static List<DynamoResource> get(String lookup, String tableName,
-                                           DeployEnv nosqlDB)
-    {
+                                           DeployEnv nosqlDB) {
         List<DynamoResource> resources = new ArrayList<>();
         DynamoDBQueryExpression<ReadWriteTable> queryExpression = getQuery(lookup);
         for (ReadWriteTable item : getList(tableName, queryExpression))

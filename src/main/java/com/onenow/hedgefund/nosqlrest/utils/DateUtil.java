@@ -9,31 +9,27 @@ import java.util.TimeZone;
 
 public class DateUtil
 {
-    public static String getCurrentDate()
-    {
+    public static String getCurrentDate() {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         return dateFormatter.format(new Date());
     }
 
-    public static Date getDate(String date, String timeZone, String format)
-    {
+    public static Date getDate(String date, String timeZone, String format) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat(format);
         dateFormatter.setTimeZone(TimeZone.getTimeZone(timeZone));
 
-        try
-        {
+        try {
             return dateFormatter.parse(date);
         }
-        catch (ParseException e)
-        {
+        catch (ParseException e) {
             Watchr.log(ExceptionUtil.exceptionToString(e));
         }
         return new Date();
     }
 
-    public static String getDate(Date date, String timeZone, String format)
-    {
+    public static String getDate(Date date, String timeZone, String format) {
+
         SimpleDateFormat dateFormatter = new SimpleDateFormat(format);
         dateFormatter.setTimeZone(TimeZone.getTimeZone(timeZone));
 

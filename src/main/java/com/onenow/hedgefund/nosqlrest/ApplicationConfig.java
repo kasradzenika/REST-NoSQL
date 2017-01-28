@@ -9,13 +9,11 @@ import java.util.Set;
 public class ApplicationConfig extends Application
 {
 
-    public ApplicationConfig()
-    {
+    public ApplicationConfig() {
     }
 
     @Override
-    public Set<Class<?>> getClasses()
-    {
+    public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
 //        resources.add(JacksonFeature.class);
 //        resources.add(NoSqlEndpoint.class);
