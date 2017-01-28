@@ -3,6 +3,7 @@ package com.onenow.hedgefund.nosqlrest;
 import com.onenow.hedgefund.discrete.TableName;
 import com.onenow.hedgefund.logging.Watchr;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
+import com.onenow.hedgefund.time.Pacing;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -26,6 +27,8 @@ public class CrudTest
         }
         Assert.assertTrue(response != null);
         Assert.assertTrue(response.resources.get(0).item.equals("{\"ticker\":\"SPY\",\"invType\":\"STOCK\"}"));
+
+        Pacing.sleep(1); // wait for log to print
     }
 
     @Test
@@ -43,6 +46,8 @@ public class CrudTest
         Assert.assertTrue(response != null);
         Assert.assertTrue(!response.resources.get(0).item.equals(""));
         Assert.assertTrue(!response.resources.get(0).item.equals(""));
+
+        Pacing.sleep(1); // wait for log to print
     }
 
 }

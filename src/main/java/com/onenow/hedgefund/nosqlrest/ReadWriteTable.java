@@ -1,7 +1,6 @@
 package com.onenow.hedgefund.nosqlrest;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.dynamo.*;
 import com.onenow.hedgefund.logging.Watchr;
@@ -36,17 +35,14 @@ public class ReadWriteTable extends ReadWrite {
 
         List<DynamoResource> resources = new ArrayList<>();
 
-        DynamoDBQueryExpression<ReadWriteTable> queryExpression = new DynamoDBQueryExpression<ReadWriteTable>()
-                .withKeyConditionExpression(columnName + " " + " = :val1 and lookup = :val2")
-                .withExpressionAttributeValues(getExpressionAttributeValues(whenAt, lookup));
-
-        for (ReadWriteTable item : getList(tableName, queryExpression)) {
+        for (ReadWriteTable item : getList(tableName, ExpressionFactory.getWhen(whenAt, lookup, columnName))) {
             String json = item.getJson();
             Watchr.log("ITEM: " + json);
             resources.add(new DynamoResource(json, nosqlDB));
         }
         return resources;
     }
+
 
     private static PaginatedQueryList<ReadWriteTable> getList(String tableName, DynamoDBQueryExpression<ReadWriteTable> queryExpression) {
         return (PaginatedQueryList<ReadWriteTable>) DynamoQuery.query(ReadWriteTable.class, queryExpression, tableName);
@@ -80,9 +76,7 @@ public class ReadWriteTable extends ReadWrite {
         toDate = DateUtil.getDate(DateUtil.getDate(toDate, timeZone, dateFormat), AppConsants.DEFAULT_TIMEZONE, AppConsants.DEFAULT_DATE_FORMAT);
 
         // TODO: com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException: Query condition missed key schema element: LOOKUP
-        DynamoDBQueryExpression<ReadWriteTable> queryExpression = new DynamoDBQueryExpression<ReadWriteTable>()
-                .withKeyConditionExpression(columnName + " " + "between :val1 and :val2")
-                .withExpressionAttributeValues(getExpressionAttributeValues(fromDate, toDate));
+        DynamoDBQueryExpression<ReadWriteTable> queryExpression = ExpressionFactory.getFromTo(fromDate, toDate, columnName);
 
         for (ReadWriteTable item : getList(tableName, queryExpression))
         {
@@ -93,12 +87,6 @@ public class ReadWriteTable extends ReadWrite {
         return resources;
     }
 
-    private static Map<String, AttributeValue> getExpressionAttributeValues(String fromDate, String toDate) {
-        Map<String, AttributeValue> eav = new HashMap<>();
-        eav.put(":val1", new AttributeValue().withS(fromDate));
-        eav.put(":val2", new AttributeValue().withS(toDate));
-        return eav;
-    }
 
     private static DynamoDBQueryExpression<ReadWriteTable> getQuery(String lookup)
     {

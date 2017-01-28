@@ -30,6 +30,6 @@ public class QueryTest {
             e.printStackTrace();
         }
 //        Assert.assertTrue(response != null);
-//        Assert.assertTrue(!response.resources.get(0).item.equals(""));
+//        Assert.assertTrue(!response.resources.getWhen(0).item.equals(""));
     }
 }
