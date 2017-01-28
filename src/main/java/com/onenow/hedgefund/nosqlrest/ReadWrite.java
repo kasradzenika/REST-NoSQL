@@ -46,7 +46,6 @@ public class ReadWrite {
 
     public static void getByDateRange(String fromDate, String toDate, String dateFormat, String timeZone,
                                       String tableName, DynamoResponse response, DeployEnv nosqlDB) {
-        response.resources.addAll(ReadWriteTable.getByDateRange(fromDate, toDate, dateFormat, timeZone,
-                tableName, nosqlDB));
+        response.resources.addAll(ReadWriteTable.getByDateRange(fromDate, toDate, dateFormat, timeZone, tableName, nosqlDB));
     }
 }

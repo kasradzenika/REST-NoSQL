@@ -33,18 +33,14 @@ public class ReadWriteTable extends ReadWrite {
 
     public static List<DynamoResource> get(String whenAt, String lookup, String tableName,
                                            DeployEnv nosqlDB) {
-        List<DynamoResource> resources = new ArrayList<>();
 
-        Map<String, AttributeValue> eav = new HashMap<>();
-        eav.put(":val1", new AttributeValue().withS(whenAt));
-        eav.put(":val2", new AttributeValue().withS(lookup));
+        List<DynamoResource> resources = new ArrayList<>();
 
         DynamoDBQueryExpression<ReadWriteTable> queryExpression = new DynamoDBQueryExpression<ReadWriteTable>()
                 .withKeyConditionExpression(columnName + " " + " = :val1 and lookup = :val2")
-                .withExpressionAttributeValues(eav);
+                .withExpressionAttributeValues(getExpressionAttributeValues(whenAt, lookup));
 
-        for (ReadWriteTable item : getList(tableName, queryExpression))
-        {
+        for (ReadWriteTable item : getList(tableName, queryExpression)) {
             String json = item.getJson();
             Watchr.log("ITEM: " + json);
             resources.add(new DynamoResource(json, nosqlDB));
@@ -83,14 +79,10 @@ public class ReadWriteTable extends ReadWrite {
         fromDate = DateUtil.getDate(DateUtil.getDate(fromDate, timeZone, dateFormat), AppConsants.DEFAULT_TIMEZONE, AppConsants.DEFAULT_DATE_FORMAT);
         toDate = DateUtil.getDate(DateUtil.getDate(toDate, timeZone, dateFormat), AppConsants.DEFAULT_TIMEZONE, AppConsants.DEFAULT_DATE_FORMAT);
 
-        Map<String, AttributeValue> eav = new HashMap<>();
-        eav.put(":val1", new AttributeValue().withS(fromDate));
-        eav.put(":val2", new AttributeValue().withS(toDate));
-
         // TODO: com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException: Query condition missed key schema element: LOOKUP
         DynamoDBQueryExpression<ReadWriteTable> queryExpression = new DynamoDBQueryExpression<ReadWriteTable>()
                 .withKeyConditionExpression(columnName + " " + "between :val1 and :val2")
-                .withExpressionAttributeValues(eav);
+                .withExpressionAttributeValues(getExpressionAttributeValues(fromDate, toDate));
 
         for (ReadWriteTable item : getList(tableName, queryExpression))
         {
@@ -99,6 +91,13 @@ public class ReadWriteTable extends ReadWrite {
             resources.add(new DynamoResource(json, nosqlDB));
         }
         return resources;
+    }
+
+    private static Map<String, AttributeValue> getExpressionAttributeValues(String fromDate, String toDate) {
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":val1", new AttributeValue().withS(fromDate));
+        eav.put(":val2", new AttributeValue().withS(toDate));
+        return eav;
     }
 
     private static DynamoDBQueryExpression<ReadWriteTable> getQuery(String lookup)

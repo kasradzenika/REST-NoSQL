@@ -13,8 +13,7 @@ public class CrudTest
 {
 
     @Test
-    public void getInvestments()
-    {
+    public void getInvestments() {
         DynamoResponse response = null;
         try
         {
@@ -30,8 +29,7 @@ public class CrudTest
     }
 
     @Test
-    public void getContracts()
-    {
+    public void getContracts() {
         DynamoResponse response = null;
         try
         {
