@@ -36,5 +36,4 @@ public class DateUtil
         return dateFormatter.format(date);
     }
 
-
 }

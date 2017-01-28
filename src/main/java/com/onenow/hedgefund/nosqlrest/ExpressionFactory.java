@@ -12,7 +12,6 @@ import java.util.Map;
 public class ExpressionFactory {
 
 
-
     protected static DynamoDBQueryExpression<ReadWriteTable> getWhen(String whenAt, String lookup, String columnName) {
         return new DynamoDBQueryExpression<ReadWriteTable>()
                 .withKeyConditionExpression(columnName + " " + " = :val1 and lookup = :val2")
@@ -24,7 +23,6 @@ public class ExpressionFactory {
                 .withKeyConditionExpression(columnName + " " + "between :val1 and :val2")
                 .withExpressionAttributeValues(getExpressionAttributeValues(fromDate, toDate));
     }
-
 
     private static Map<String, AttributeValue> getExpressionAttributeValues(String fromDate, String toDate) {
         Map<String, AttributeValue> eav = new HashMap<>();
