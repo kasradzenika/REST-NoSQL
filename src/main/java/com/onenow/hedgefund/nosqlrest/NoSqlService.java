@@ -26,15 +26,19 @@ public class NoSqlService
 
         Dynamo.createTableIfDoesnotExist(LookupTable.getKey(tableName, nosqlDB));
 
-        DynamoReadWrite.save(key, value, LookupTable.getKey(tableName, nosqlDB));
+        ReadWrite.save(getTable(key, value), LookupTable.getKey(tableName, nosqlDB));
         //        Watchr.log("POST TO TABLE <" + tableName + "> OF: " + value.toString());
+    }
+
+    private static ReadWriteTable getTable(String key, String value) {
+        return new ReadWriteTable(key, value);
     }
 
     public static void PUT(String key,
                            String value,
                            TableName tableName)
             throws Exception {
-        DynamoReadWrite.save(key, value, LookupTable.getKey(tableName, nosqlDB));
+        ReadWrite.save(getTable(key, value), LookupTable.getKey(tableName, nosqlDB));
         //        Watchr.log("PUT TO TABLE <" + tableName + "> OF: " + value.toString());
     }
 
@@ -47,7 +51,7 @@ public class NoSqlService
         DynamoResponse response = new DynamoResponse();
 
         for (String lookup : Dynamo.getLookups(LookupTable.getKey(tableName, nosqlDB))) {
-            DynamoReadWrite.get(lookup, LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
+            ReadWrite.get(lookup, LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
         }
 
         //        Watchr.log("GET() FROM " + tableName + " RETURNED RESPONSE " + response.resources.toString());
@@ -65,7 +69,7 @@ public class NoSqlService
             throws Exception {
 
         DynamoResponse response = new DynamoResponse();
-        DynamoReadWrite.get(itemLookup, LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
+        ReadWrite.get(itemLookup, LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
 
         //        Watchr.log("GET() RESPONSE " + response.resources.toString());
 
@@ -77,7 +81,7 @@ public class NoSqlService
             throws Exception {
 
         DynamoResponse response = new DynamoResponse();
-        DynamoReadWrite.getByDateRange(fromDate, toDate, dateFormat, timeZone,
+        ReadWrite.getByDateRange(fromDate, toDate, dateFormat, timeZone,
                 LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
 
         //        Watchr.log("GET() RESPONSE " + response.resources.toString());

@@ -15,18 +15,18 @@ import java.util.List;
 import java.util.Map;
 
 @DynamoDBTable(tableName = "")
-public class DynamoTable extends DynamoReadWrite {
+public class ReadWriteTable extends ReadWrite {
 
     private static String columnName = "date_time"; // dateTime is protected
 
 
-    public DynamoTable()
+    public ReadWriteTable()
     {
         this("", "");
     }
 
-    public DynamoTable(String lookup,
-                       String json)
+    public ReadWriteTable(String lookup,
+                          String json)
     {
         super(lookup, json);
         super.dateTime = DateUtil.getCurrentDate();
@@ -41,11 +41,11 @@ public class DynamoTable extends DynamoReadWrite {
         eav.put(":val1", new AttributeValue().withS(whenAt));
         eav.put(":val2", new AttributeValue().withS(lookup));
 
-        DynamoDBQueryExpression<DynamoTable> queryExpression = new DynamoDBQueryExpression<DynamoTable>()
+        DynamoDBQueryExpression<ReadWriteTable> queryExpression = new DynamoDBQueryExpression<ReadWriteTable>()
                 .withKeyConditionExpression(columnName + " " + " = :val1 and lookup = :val2")
                 .withExpressionAttributeValues(eav);
 
-        for (DynamoTable item : Dynamo.mapper.query(DynamoTable.class, queryExpression, new DynamoDBMapperConfig(new DynamoDBMapperConfig.TableNameOverride(tableName))))
+        for (ReadWriteTable item : getList(tableName, queryExpression))
         {
             String json = item.getJson();
             Watchr.log("ITEM: " + json);
@@ -54,12 +54,17 @@ public class DynamoTable extends DynamoReadWrite {
         return resources;
     }
 
+    private static PaginatedQueryList<ReadWriteTable> getList(String tableName, DynamoDBQueryExpression<ReadWriteTable> queryExpression) {
+        return (PaginatedQueryList<ReadWriteTable>) DynamoQuery.query(ReadWriteTable.class, queryExpression, tableName);
+    }
+
+
     public static List<DynamoResource> get(String lookup, String tableName,
                                            DeployEnv nosqlDB)
     {
         List<DynamoResource> resources = new ArrayList<>();
-        DynamoDBQueryExpression<DynamoTable> queryExpression = getQuery(lookup);
-        for (DynamoTable item : Dynamo.mapper.query(DynamoTable.class, queryExpression, new DynamoDBMapperConfig(new DynamoDBMapperConfig.TableNameOverride(tableName))))
+        DynamoDBQueryExpression<ReadWriteTable> queryExpression = getQuery(lookup);
+        for (ReadWriteTable item : getList(tableName, queryExpression))
         {
             String json = item.getJson();
             // Watchr.log("ITEM: " + json);
@@ -86,11 +91,11 @@ public class DynamoTable extends DynamoReadWrite {
         eav.put(":val2", new AttributeValue().withS(toDate));
 
         // TODO: com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException: Query condition missed key schema element: LOOKUP
-        DynamoDBQueryExpression<DynamoTable> queryExpression = new DynamoDBQueryExpression<DynamoTable>()
+        DynamoDBQueryExpression<ReadWriteTable> queryExpression = new DynamoDBQueryExpression<ReadWriteTable>()
                 .withKeyConditionExpression(columnName + " " + "between :val1 and :val2")
                 .withExpressionAttributeValues(eav);
 
-        for (DynamoTable item : Dynamo.mapper.query(DynamoTable.class, queryExpression, new DynamoDBMapperConfig(new DynamoDBMapperConfig.TableNameOverride(tableName))))
+        for (ReadWriteTable item : getList(tableName, queryExpression))
         {
             String json = item.getJson();
             Watchr.log("ITEM: " + json);
@@ -99,12 +104,12 @@ public class DynamoTable extends DynamoReadWrite {
         return resources;
     }
 
-    private static DynamoDBQueryExpression<DynamoTable> getQuery(String lookup)
+    private static DynamoDBQueryExpression<ReadWriteTable> getQuery(String lookup)
     {
-        DynamoTable partitionKey = new DynamoTable();
+        ReadWriteTable partitionKey = new ReadWriteTable();
         partitionKey.setLookup(lookup);
 
-        return new DynamoDBQueryExpression<DynamoTable>()
+        return new DynamoDBQueryExpression<ReadWriteTable>()
                 .withHashKeyValues(partitionKey);
     }
 
