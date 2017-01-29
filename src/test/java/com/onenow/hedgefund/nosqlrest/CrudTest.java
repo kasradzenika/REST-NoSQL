@@ -16,13 +16,11 @@ public class CrudTest
     @Test
     public void getInvestments() {
         DynamoResponse response = null;
-        try
-        {
+        try {
             response = NoSqlService.GET("SPY-STOCK", TableName.INVESTMENTS);
             Watchr.log("RESPONSE " + response);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             e.printStackTrace();
         }
         Assert.assertTrue(response != null);

@@ -104,8 +104,6 @@
             <artifactId>aws</artifactId>
             <version>LATEST</version>
         </dependency>
-
-        <!-- OWN: AWS DYNAMO -->
         <dependency>
             <groupId>${this.groupId}</groupId>
             <artifactId>aws-dynamo</artifactId>
