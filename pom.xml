@@ -84,6 +84,13 @@
     <!-- DEPENDENCIES TO PULL -->
     <dependencies>
 
+        <!-- OWN: DATABASE -->
+        <dependency>
+            <groupId>${this.groupId}</groupId>
+            <artifactId>database-nosql</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
         <!-- OWN: NoSQL client -->
         <dependency>
             <groupId>${this.groupId}</groupId>

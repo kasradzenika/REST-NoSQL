@@ -8,9 +8,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.onenow.hedgefund.discrete.TableName;
 import com.onenow.hedgefund.logging.Watchr;
+import com.onenow.hedgefund.nosql.ExceptionUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResource;
 import com.onenow.hedgefund.nosqlclient.ModelNosql;
-import com.onenow.hedgefund.nosqlrest.utils.ExceptionUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
 import com.onenow.hedgefund.util.Piping;
 
