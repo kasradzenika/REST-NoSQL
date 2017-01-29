@@ -4,6 +4,7 @@ import com.onenow.hedgefund.dynamo.Dynamo;
 import com.onenow.hedgefund.discovery.EnvironmentDatabase;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.discrete.TableName;
+import com.onenow.hedgefund.logging.Watchr;
 import com.onenow.hedgefund.nosql.ReadWrite;
 import com.onenow.hedgefund.nosql.ReadWriteTable;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
@@ -95,14 +96,14 @@ public class NoSqlService
                               TableName tableName)
             throws Exception {
 
-        String key = "LOOKUP";
-        Dynamo.deleteItem(key, itemLookup, LookupTable.getKey(tableName, nosqlDB));
-        //        Watchr.log("DELETING WITH KEY " + key + " AND VALUE " + lookup + " FROM TABLE " + tableName);
+        String columnName = "LOOKUP";
+        Dynamo.deleteItem(columnName, itemLookup, LookupTable.getKey(tableName, nosqlDB));
+        Watchr.log("DELETING WITH COLUMN " + columnName + " AND KEY " + itemLookup + " FROM TABLE " + tableName);
     }
 
     public static void DELETE(TableName tableName)
-            throws Exception
-    {
+            throws Exception {
+
         Dynamo.deleteTable(LookupTable.getKey(tableName, nosqlDB));
     }
 
