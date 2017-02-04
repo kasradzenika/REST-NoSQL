@@ -12,6 +12,7 @@ import com.onenow.hedgefund.nosql.ExceptionUtil;
 import com.onenow.hedgefund.nosqlclient.DynamoResource;
 import com.onenow.hedgefund.nosqlclient.ModelNosql;
 import com.onenow.hedgefund.nosqlclient.DynamoResponse;
+import com.onenow.hedgefund.responsenosql.DynamoResourceSerializer;
 import com.onenow.hedgefund.util.Piping;
 
 @Path("/nosql")

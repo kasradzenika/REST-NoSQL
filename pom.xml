@@ -84,6 +84,13 @@
     <!-- DEPENDENCIES TO PULL -->
     <dependencies>
 
+        <!-- OWN: RESPONSE NOSQL -->
+        <dependency>
+            <groupId>${this.groupId}</groupId>
+            <artifactId>responsenosql</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
         <!-- OWN: DATABASE -->
         <dependency>
             <groupId>${this.groupId}</groupId>
