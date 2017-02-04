@@ -15,6 +15,7 @@ import com.onenow.hedgefund.responsenosql.DynamoResourceSerializer;
 import com.onenow.hedgefund.responsenosql.ModelNosql;
 import com.onenow.hedgefund.util.Piping;
 
+//
 @Path("/nosql")
 public class NoSqlEndpoint {
 
