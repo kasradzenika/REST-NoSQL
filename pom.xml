@@ -38,7 +38,7 @@
         <!--https://marketplace.automic.com/details/tomcat-official-docker-image-->
         <build.source>1.7</build.source>
         <build.target>1.7</build.target>
-        <build.baseImage>tomcat:7-jre7</build.baseImage>
+        <build.baseImage>pablotech/hege-rest</build.baseImage>
 
         <!-- REPOSITORIES -->
         <git.owner>pablo-tech</git.owner>
