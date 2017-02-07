@@ -297,7 +297,7 @@
                     <exposes>
                         <expose>8080</expose>
                     </exposes>
-                    <cmd>["catalina.sh", "run"]</cmd>
+                    <cmd>["/usr/share/tomcat7/bin/catalina.sh", "run"]</cmd>
                 </configuration>
 
             </plugin>
