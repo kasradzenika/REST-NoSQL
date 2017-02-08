@@ -291,8 +291,8 @@
                     <runs>
                         <run>["env"]</run>
                         <run>rm -rf /usr/local/tomcat/webapps/docs /usr/local/tomcat/webapps/examples /usr/local/tomcat/webapps/ROOT</run>
-                        <run>cp /${project.build.finalName}.war /var/lib/tomcat7/webapps/ROOT.war</run>
-                        <run>ls -ltr /var/lib/tomcat7/webapps/</run>
+                        <run>cp /${project.build.finalName}.war /usr/share/tomcat7/webapps/ROOT.war</run>
+                        <run>ls -ltr /usr/share/tomcat7/webapps/</run>
                     </runs>
                     <exposes>
                         <expose>8080</expose>
