@@ -290,14 +290,14 @@
                     </resources>
                     <runs>
                         <run>["env"]</run>
-                        <run>rm -rf /usr/local/tomcat/webapps/docs /usr/local/tomcat/webapps/examples /usr/local/tomcat/webapps/ROOT</run>
+                        <run>rm -rf /usr/share/tomcat7/webapps/docs /usr/share/tomcat7/webapps/examples /usr/share/tomcat7/webapps/ROOT</run>
                         <run>cp /${project.build.finalName}.war /var/lib/tomcat7/webapps/ROOT.war</run>
                         <run>ls -ltr /var/lib/tomcat7/webapps/</run>
                     </runs>
                     <exposes>
                         <expose>8080</expose>
                     </exposes>
-                    <cmd>["/usr/share/tomcat7/bin/catalina.sh", "run"]</cmd>
+                    <cmd>["/usr/share/tomcat7/bin/startup.sh && rm -rf /usr/share/tomcat7/webapps/ROOT && tail -f /usr/share/tomcat7/logs/catalina.out", "run"]</cmd>
                 </configuration>
 
             </plugin>
