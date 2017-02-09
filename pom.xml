@@ -297,7 +297,7 @@
                     <exposes>
                         <expose>8080</expose>
                     </exposes>
-                    <cmd>["/usr/share/tomcat7/bin/startup.sh \&\& rm -rf /usr/share/tomcat7/webapps/ROOT \&\& tail -f /usr/share/tomcat7/logs/catalina.out", "run"]</cmd>
+                    <cmd>["/bin/tomcat_start", "run"]</cmd>
                 </configuration>
 
             </plugin>
