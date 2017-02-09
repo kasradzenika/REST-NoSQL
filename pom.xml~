@@ -297,7 +297,7 @@
                     <exposes>
                         <expose>8080</expose>
                     </exposes>
-                    <cmd>["/usr/share/tomcat7/bin/startup.sh", "run"]</cmd>
+                    <cmd>["/usr/share/tomcat7/bin/startup.sh &", "run"]</cmd>
                 </configuration>
 
             </plugin>
