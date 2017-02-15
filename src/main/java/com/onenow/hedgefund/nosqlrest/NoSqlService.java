@@ -38,8 +38,8 @@ public class NoSqlService
                            String value,
                            TableName tableName)
             throws Exception {
-        ReadWrite.save(new ReadWriteTable(key, value), LookupTable.getKey(tableName, getNosqlDB()));
-        //        Watchr.log("PUT TO TABLE <" + tableName + "> OF: " + value.toString());
+
+        BusNoSqlFanout.write(key, value, tableName);
     }
 
 
