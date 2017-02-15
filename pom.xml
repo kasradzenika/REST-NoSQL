@@ -84,6 +84,13 @@
     <!-- DEPENDENCIES TO PULL -->
     <dependencies>
 
+        <!-- OWN: BUS -->
+        <dependency>
+            <groupId>${this.groupId}</groupId>
+            <artifactId>bus</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
         <!-- OWN: RESPONSE NOSQL -->
         <dependency>
             <groupId>${this.groupId}</groupId>

@@ -1,5 +1,7 @@
 package com.onenow.hedgefund.nosqlrest;
 
+import com.onenow.hedgefund.bus.BusNoSqlFanout;
+import com.onenow.hedgefund.bus.LookupTable;
 import com.onenow.hedgefund.dynamo.Dynamo;
 import com.onenow.hedgefund.discovery.EnvironmentDatabase;
 import com.onenow.hedgefund.discrete.DeployEnv;
@@ -15,7 +17,9 @@ import java.util.List;
 public class NoSqlService
 {
 
-    private static DeployEnv nosqlDB = EnvironmentDatabase.getNosqlValue();
+    private static DeployEnv getNosqlDB() {
+        return EnvironmentDatabase.getNosqlValue();
+    }
 
 
     public NoSqlService() {
@@ -27,21 +31,14 @@ public class NoSqlService
                             TableName tableName)
             throws Exception {
 
-        Dynamo.createTableIfDoesnotExist(LookupTable.getKey(tableName, nosqlDB));
-
-        ReadWrite.save(getTable(key, value), LookupTable.getKey(tableName, nosqlDB));
-        //        Watchr.log("POST TO TABLE <" + tableName + "> OF: " + value.toString());
-    }
-
-    private static ReadWriteTable getTable(String key, String value) {
-        return new ReadWriteTable(key, value);
+        BusNoSqlFanout.write(key, value, tableName);
     }
 
     public static void PUT(String key,
                            String value,
                            TableName tableName)
             throws Exception {
-        ReadWrite.save(getTable(key, value), LookupTable.getKey(tableName, nosqlDB));
+        ReadWrite.save(new ReadWriteTable(key, value), LookupTable.getKey(tableName, getNosqlDB()));
         //        Watchr.log("PUT TO TABLE <" + tableName + "> OF: " + value.toString());
     }
 
@@ -49,12 +46,12 @@ public class NoSqlService
     public static DynamoResponse GET(TableName tableName)
             throws Exception {
 
-        Dynamo.createTableIfDoesnotExist(LookupTable.getKey(tableName, nosqlDB));
+        Dynamo.createTableIfDoesnotExist(LookupTable.getKey(tableName, getNosqlDB()));
 
         DynamoResponse response = new DynamoResponse();
 
-        for (String lookup : Dynamo.getLookups(LookupTable.getKey(tableName, nosqlDB))) {
-            ReadWrite.get(lookup, LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
+        for (String lookup : Dynamo.getLookups(LookupTable.getKey(tableName, getNosqlDB()))) {
+            ReadWrite.get(lookup, LookupTable.getKey(tableName, getNosqlDB()), response, getNosqlDB());
         }
 
         //        Watchr.log("GET() FROM " + tableName + " RETURNED RESPONSE " + response.resources.toString());
@@ -72,7 +69,7 @@ public class NoSqlService
             throws Exception {
 
         DynamoResponse response = new DynamoResponse();
-        ReadWrite.get(itemLookup, LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
+        ReadWrite.get(itemLookup, LookupTable.getKey(tableName, getNosqlDB()), response, getNosqlDB());
 
         //        Watchr.log("GET() RESPONSE " + response.resources.toString());
 
@@ -85,7 +82,7 @@ public class NoSqlService
 
         DynamoResponse response = new DynamoResponse();
         ReadWrite.getByDateRange(fromDate, toDate, dateFormat, timeZone,
-                LookupTable.getKey(tableName, nosqlDB), response, nosqlDB);
+                LookupTable.getKey(tableName, getNosqlDB()), response, getNosqlDB());
 
         //        Watchr.log("GET() RESPONSE " + response.resources.toString());
 
@@ -97,14 +94,14 @@ public class NoSqlService
             throws Exception {
 
         String columnName = "LOOKUP";
-        Dynamo.deleteItem(columnName, itemLookup, LookupTable.getKey(tableName, nosqlDB));
+        Dynamo.deleteItem(columnName, itemLookup, LookupTable.getKey(tableName, getNosqlDB()));
         Watchr.log("DELETING WITH COLUMN " + columnName + " AND KEY " + itemLookup + " FROM TABLE " + tableName);
     }
 
     public static void DELETE(TableName tableName)
             throws Exception {
 
-        Dynamo.deleteTable(LookupTable.getKey(tableName, nosqlDB));
+        Dynamo.deleteTable(LookupTable.getKey(tableName, getNosqlDB()));
     }
 
 }
