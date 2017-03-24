@@ -18,8 +18,8 @@ public class QueryTest {
         try
         {
             response = NoSqlService.GET(TableName.CONTRACTS,
-                                        "2016-01-01 00:00:00",
-                                        "2016-12-31 23:59:59",
+                                        "2017-03-01 00:00:00",
+                                        "2017-03-31 23:59:59",
                                         "yyyy-MM-dd hh:mm:ss",
                                         "UTC");
             Watchr.log("RESPONSE: " + response);
