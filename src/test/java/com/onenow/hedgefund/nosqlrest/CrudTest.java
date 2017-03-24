@@ -24,7 +24,7 @@ public class CrudTest
             e.printStackTrace();
         }
         Assert.assertTrue(response != null);
-        Assert.assertTrue(response.resources.get(0).item.equals("{\"ticker\":\"SPY\",\"invType\":\"STOCK\"}"));
+        Assert.assertTrue(response.resources.get(0).itemJson.equals("{\"ticker\":\"SPY\",\"invType\":\"STOCK\"}"));
 
         Pacing.sleep(1); // wait for log to print
     }
@@ -42,8 +42,8 @@ public class CrudTest
             e.printStackTrace();
         }
         Assert.assertTrue(response != null);
-        Assert.assertTrue(!response.resources.get(0).item.equals(""));
-        Assert.assertTrue(!response.resources.get(0).item.equals(""));
+        Assert.assertTrue(!response.resources.get(0).itemJson.equals(""));
+        Assert.assertTrue(!response.resources.get(0).itemJson.equals(""));
 
         Pacing.sleep(1); // wait for log to print
     }

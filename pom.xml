@@ -84,6 +84,20 @@
     <!-- DEPENDENCIES TO PULL -->
     <dependencies>
 
+        <!-- OWN: CREDENTIAL -->
+        <dependency>
+            <groupId>${this.groupId}</groupId>
+            <artifactId>credential</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
+        <!-- OWN: DISCRETE -->
+        <dependency>
+            <groupId>${this.groupId}</groupId>
+            <artifactId>discrete</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
         <!-- OWN: BUS -->
         <dependency>
             <groupId>${this.groupId}</groupId>
