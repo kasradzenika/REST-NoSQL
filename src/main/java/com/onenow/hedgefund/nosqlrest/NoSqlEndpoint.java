@@ -6,8 +6,10 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.onenow.hedgefund.discrete.ServiceType;
 import com.onenow.hedgefund.discrete.TableName;
 import com.onenow.hedgefund.logging.Watchr;
+import com.onenow.hedgefund.monitor.BeatService;
 import com.onenow.hedgefund.responsenosql.DynamoResponse;
 import com.onenow.hedgefund.responsenosql.DynamoResource;
 import com.onenow.hedgefund.responsenosql.DynamoResourceSerializer;
@@ -24,6 +26,7 @@ public class NoSqlEndpoint {
     public Response POST(ModelNosql modelNosql, @PathParam("tableName") String tableName) {
         try {
             NoSqlService.POST(modelNosql.getItemKey(), modelNosql.getItemJson(), TableName.valueOf(tableName));
+            BeatService.write(ServiceType.NOSQL);
             return Response.ok().build();
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -37,6 +40,7 @@ public class NoSqlEndpoint {
     public Response PUT(ModelNosql modelNosql, @PathParam("tableName") String tableName) {
         try {
             NoSqlService.PUT(modelNosql.getItemKey(), modelNosql.getItemJson(), TableName.valueOf(tableName));
+            BeatService.write(ServiceType.NOSQL);
             return Response.ok().build();
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -49,6 +53,7 @@ public class NoSqlEndpoint {
     @Produces(MediaType.TEXT_PLAIN)
     public static String GET() {
         try {
+            BeatService.write(ServiceType.NOSQL);
             return (Piping.serialize(NoSqlService.GET_TABLE_NAMES()));
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -61,8 +66,12 @@ public class NoSqlEndpoint {
     @Produces(MediaType.TEXT_PLAIN)
     public static String GET(@PathParam("tableName") String tableName) {
         try {
-            DynamoResponse items = NoSqlService.GET(TableName.valueOf(tableName));
-            return getJson(items);
+            DynamoResponse response = NoSqlService.GET(TableName.valueOf(tableName));
+            BeatService.write(ServiceType.NOSQL);
+            if(response.resources.size()>0) {
+                BeatService.write(ServiceType.DYNAMO);
+            }
+            return getJson(response);
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return "{\"error\":\"" + ex + "\"}";//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
@@ -83,8 +92,12 @@ public class NoSqlEndpoint {
                              @PathParam("ID") String lookup) {
         try {
             if (lookup != null && !lookup.isEmpty()) {
-                DynamoResponse items = NoSqlService.GET(lookup, TableName.valueOf(tableName));
-                return getJson(items);
+                DynamoResponse response = NoSqlService.GET(lookup, TableName.valueOf(tableName));
+                BeatService.write(ServiceType.NOSQL);
+                if(response.resources.size()>0) {
+                    BeatService.write(ServiceType.DYNAMO);
+                }
+                return getJson(response);
             } else {
                 DynamoResponse items = NoSqlService.GET(TableName.valueOf(tableName));
                 return getJson(items);
@@ -110,8 +123,11 @@ public class NoSqlEndpoint {
 
         try {
             DynamoResponse response = NoSqlService.GET(TableName.valueOf(tableName), fromDate, toDate, dateFormat, timeZone);
-            String serialized = Piping.serialize(response);
-            return (serialized);
+            BeatService.write(ServiceType.NOSQL);
+            if(response.resources.size()>0) {
+                BeatService.write(ServiceType.DYNAMO);
+            }
+            return Piping.serialize(response);
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return "{\"error\":\"" + ex + "\"}";//Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
@@ -125,6 +141,7 @@ public class NoSqlEndpoint {
                            @PathParam("ID") String lookup) {
         try {
             NoSqlService.DELETE(lookup, TableName.valueOf(tableName));
+            BeatService.write(ServiceType.NOSQL);
             return Response.ok().build();
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
