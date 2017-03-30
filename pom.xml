@@ -84,6 +84,13 @@
     <!-- DEPENDENCIES TO PULL -->
     <dependencies>
 
+        <!-- OWN: MONITOR -->
+        <dependency>
+            <groupId>${this.groupId}</groupId>
+            <artifactId>monitor</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
         <!-- OWN: CREDENTIAL -->
         <dependency>
             <groupId>${this.groupId}</groupId>
