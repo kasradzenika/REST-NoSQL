@@ -26,7 +26,7 @@ public class NoSqlEndpoint {
     public Response POST(ModelNosql modelNosql, @PathParam("tableName") String tableName) {
         try {
             NoSqlService.POST(modelNosql.getItemKey(), modelNosql.getItemJson(), TableName.valueOf(tableName));
-            BeatService.write(ServiceType.NOSQL);
+            oneBeat();
             return Response.ok().build();
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -40,7 +40,7 @@ public class NoSqlEndpoint {
     public Response PUT(ModelNosql modelNosql, @PathParam("tableName") String tableName) {
         try {
             NoSqlService.PUT(modelNosql.getItemKey(), modelNosql.getItemJson(), TableName.valueOf(tableName));
-            BeatService.write(ServiceType.NOSQL);
+            oneBeat();
             return Response.ok().build();
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -53,7 +53,7 @@ public class NoSqlEndpoint {
     @Produces(MediaType.TEXT_PLAIN)
     public static String GET() {
         try {
-            BeatService.write(ServiceType.NOSQL);
+            oneBeat();
             return (Piping.serialize(NoSqlService.GET_TABLE_NAMES()));
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -67,10 +67,7 @@ public class NoSqlEndpoint {
     public static String GET(@PathParam("tableName") String tableName) {
         try {
             DynamoResponse response = NoSqlService.GET(TableName.valueOf(tableName));
-            BeatService.write(ServiceType.NOSQL);
-            if(response.resources.size()>0) {
-                BeatService.write(ServiceType.DYNAMO);
-            }
+            twoBeat(response);
             return getJson(response);
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -93,10 +90,7 @@ public class NoSqlEndpoint {
         try {
             if (lookup != null && !lookup.isEmpty()) {
                 DynamoResponse response = NoSqlService.GET(lookup, TableName.valueOf(tableName));
-                BeatService.write(ServiceType.NOSQL);
-                if(response.resources.size()>0) {
-                    BeatService.write(ServiceType.DYNAMO);
-                }
+                twoBeat(response);
                 return getJson(response);
             } else {
                 DynamoResponse items = NoSqlService.GET(TableName.valueOf(tableName));
@@ -123,10 +117,7 @@ public class NoSqlEndpoint {
 
         try {
             DynamoResponse response = NoSqlService.GET(TableName.valueOf(tableName), fromDate, toDate, dateFormat, timeZone);
-            BeatService.write(ServiceType.NOSQL);
-            if(response.resources.size()>0) {
-                BeatService.write(ServiceType.DYNAMO);
-            }
+            twoBeat(response);
             return Piping.serialize(response);
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
@@ -141,11 +132,33 @@ public class NoSqlEndpoint {
                            @PathParam("ID") String lookup) {
         try {
             NoSqlService.DELETE(lookup, TableName.valueOf(tableName));
-            BeatService.write(ServiceType.NOSQL);
+            oneBeat();
             return Response.ok().build();
         } catch (Exception ex) {
             Watchr.log(ExceptionUtil.exceptionToString(ex));
             return Response.status(Response.Status.BAD_REQUEST).entity(ExceptionUtil.exceptionToString(ex)).build();
         }
     }
+
+    private static void oneBeat() {
+        try {
+            BeatService.write(ServiceType.NOSQL);
+        } catch (Exception e) {
+            // e.printStackTrace();
+        }
+    }
+
+    private static void twoBeat(DynamoResponse response) {
+
+        oneBeat();
+
+        try {
+            if(response.resources.size()>0) {
+                BeatService.write(ServiceType.DYNAMO);
+            }
+        } catch (Exception e) {
+            // e.printStackTrace();
+        }
+    }
+
 }
