@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder;
 import com.onenow.hedgefund.discrete.ServiceType;
 import com.onenow.hedgefund.discrete.TableName;
 import com.onenow.hedgefund.logging.Watchr;
-import com.onenow.hedgefund.monitor.BeatService;
+import com.onenow.hedgefund.monitor.service.BeatService;
 import com.onenow.hedgefund.responsenosql.DynamoResponse;
 import com.onenow.hedgefund.responsenosql.DynamoResource;
 import com.onenow.hedgefund.responsenosql.DynamoResourceSerializer;
