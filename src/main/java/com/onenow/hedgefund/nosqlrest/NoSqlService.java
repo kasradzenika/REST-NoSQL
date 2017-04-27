@@ -10,6 +10,7 @@ import com.onenow.hedgefund.logging.Watchr;
 import com.onenow.hedgefund.nosql.ReadWrite;
 import com.onenow.hedgefund.nosql.ReadWriteTable;
 import com.onenow.hedgefund.responsenosql.DynamoResponse;
+import com.onenow.hedgefund.time.Pacing;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class NoSqlService
 
         for (String lookup : Dynamo.getLookups(LookupTable.getKey(tableName, getNosqlDB()))) {
             ReadWrite.get(lookup, LookupTable.getKey(tableName, getNosqlDB()), response, getNosqlDB());
+            Pacing.sleepMillis(10); // reduce pressure on DynamoDB
         }
 
         //        Watchr.log("GET() FROM " + tableName + " RETURNED RESPONSE " + response.resources.toString());
