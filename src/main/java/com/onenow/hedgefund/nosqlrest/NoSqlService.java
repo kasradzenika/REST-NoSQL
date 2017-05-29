@@ -65,22 +65,24 @@ public class NoSqlService
         Long nowMs = DateTime.getTimeMilisecondsNow();
 
         if(MonitoringTimer.elapsed(nowMs, responseStamp.get(documentKey), timeToLiveSec)) {
-
-            response = new DynamoResponse();
-
-            for (String lookup : Dynamo.getLookups(LookupTable.getKey(tableName, getNosqlDB()))) {
-                ReadWrite.get(lookup, LookupTable.getKey(tableName, getNosqlDB()), response, getNosqlDB());
-                Pacing.sleepMillis(10); // reduce pressure on DynamoDB
-            }
-
-            lastResponse.put(documentKey, response);
-            responseStamp.put(documentKey, nowMs);
-
+            response = getResponse(tableEnv);
+            saveResponse(documentKey, response, nowMs);
         } else {
             response = lastResponse.get(documentKey);
         }
 
         //        Watchr.log("GET() FROM " + tableName + " RETURNED RESPONSE " + response.resources.toString());
+        return response;
+    }
+
+    private static DynamoResponse getResponse(String tableEnv) {
+
+        DynamoResponse response = new DynamoResponse();
+
+        for (String lookup : Dynamo.getLookups(tableEnv)) {
+            ReadWrite.get(lookup, tableEnv, response, getNosqlDB());
+            Pacing.sleepMillis(10); // reduce pressure on DynamoDB
+        }
         return response;
     }
 
@@ -101,19 +103,19 @@ public class NoSqlService
         Long nowMs = DateTime.getTimeMilisecondsNow();
 
         if(MonitoringTimer.elapsed(nowMs, responseStamp.get(documentKey), timeToLiveSec)) {
-
-            response = new DynamoResponse();
-            ReadWrite.get(itemLookup, tableEnv, response, getNosqlDB());
-
-            lastResponse.put(documentKey, response);
-            responseStamp.put(documentKey, nowMs);
-
+            response = getResponse(itemLookup, tableEnv);
+            saveResponse(documentKey, response, nowMs);
         } else {
             response = lastResponse.get(documentKey);
         }
 
         //        Watchr.log("GET() RESPONSE " + response.resources.toString());
+        return response;
+    }
 
+    private static DynamoResponse getResponse(String itemLookup, String tableEnv) {
+        DynamoResponse response = new DynamoResponse();
+        ReadWrite.get(itemLookup, tableEnv, response, getNosqlDB());
         return response;
     }
 
@@ -121,12 +123,31 @@ public class NoSqlService
                                      String fromDate, String toDate, String dateFormat, String timeZone)
             throws Exception {
 
-        DynamoResponse response = new DynamoResponse();
-        ReadWrite.getByDateRange(fromDate, toDate, dateFormat, timeZone,
-                LookupTable.getKey(tableName, getNosqlDB()), response, getNosqlDB());
+        String tableEnv = LookupTable.getKey(tableName, getNosqlDB());
+        String documentKey = LookupDocument.getKey(fromDate, toDate, dateFormat, timeZone, tableEnv);
+
+        DynamoResponse response;
+        Long nowMs = DateTime.getTimeMilisecondsNow();
+
+        if(MonitoringTimer.elapsed(nowMs, responseStamp.get(documentKey), timeToLiveSec)) {
+            response = getResponse(fromDate, toDate, dateFormat, timeZone, tableEnv);
+            saveResponse(documentKey, response, nowMs);
+        } else {
+            response = lastResponse.get(documentKey);
+        }
 
         //        Watchr.log("GET() RESPONSE " + response.resources.toString());
+        return response;
+    }
 
+    private static void saveResponse(String documentKey, DynamoResponse response, Long nowMs) {
+        lastResponse.put(documentKey, response);
+        responseStamp.put(documentKey, nowMs);
+    }
+
+    private static DynamoResponse getResponse(String fromDate, String toDate, String dateFormat, String timeZone, String tableEnv) {
+        DynamoResponse response = new DynamoResponse();
+        ReadWrite.getByDateRange(fromDate, toDate, dateFormat, timeZone, tableEnv, response, getNosqlDB());
         return response;
     }
 
