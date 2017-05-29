@@ -65,7 +65,7 @@ public class NoSqlService
         Long nowMs = DateTime.getTimeMilisecondsNow();
 
         if(MonitoringTimer.elapsed(nowMs, responseStamp.get(documentKey), timeToLiveSec)) {
-            response = getResponse(tableEnv);
+            response = ResponseBuilder.getResponse(tableEnv, getNosqlDB());
             saveResponse(documentKey, response, nowMs);
         } else {
             response = lastResponse.get(documentKey);
@@ -75,23 +75,11 @@ public class NoSqlService
         return response;
     }
 
-    private static DynamoResponse getResponse(String tableEnv) {
-
-        DynamoResponse response = new DynamoResponse();
-
-        for (String lookup : Dynamo.getLookups(tableEnv)) {
-            ReadWrite.get(lookup, tableEnv, response, getNosqlDB());
-            Pacing.sleepMillis(10); // reduce pressure on DynamoDB
-        }
-        return response;
-    }
-
     public static List<String> GET_TABLE_NAMES()
             throws Exception {
 
         return Dynamo.getTables();
     }
-
 
     public static DynamoResponse GET(String itemLookup, TableName tableName)
             throws Exception {
@@ -103,7 +91,7 @@ public class NoSqlService
         Long nowMs = DateTime.getTimeMilisecondsNow();
 
         if(MonitoringTimer.elapsed(nowMs, responseStamp.get(documentKey), timeToLiveSec)) {
-            response = getResponse(itemLookup, tableEnv);
+            response = ResponseBuilder.getResponse(itemLookup, tableEnv, getNosqlDB());
             saveResponse(documentKey, response, nowMs);
         } else {
             response = lastResponse.get(documentKey);
@@ -113,11 +101,6 @@ public class NoSqlService
         return response;
     }
 
-    private static DynamoResponse getResponse(String itemLookup, String tableEnv) {
-        DynamoResponse response = new DynamoResponse();
-        ReadWrite.get(itemLookup, tableEnv, response, getNosqlDB());
-        return response;
-    }
 
     public static DynamoResponse GET(TableName tableName,
                                      String fromDate, String toDate, String dateFormat, String timeZone)
@@ -130,7 +113,7 @@ public class NoSqlService
         Long nowMs = DateTime.getTimeMilisecondsNow();
 
         if(MonitoringTimer.elapsed(nowMs, responseStamp.get(documentKey), timeToLiveSec)) {
-            response = getResponse(fromDate, toDate, dateFormat, timeZone, tableEnv);
+            response = ResponseBuilder.getResponse(fromDate, toDate, dateFormat, timeZone, tableEnv, getNosqlDB());
             saveResponse(documentKey, response, nowMs);
         } else {
             response = lastResponse.get(documentKey);
@@ -143,12 +126,6 @@ public class NoSqlService
     private static void saveResponse(String documentKey, DynamoResponse response, Long nowMs) {
         lastResponse.put(documentKey, response);
         responseStamp.put(documentKey, nowMs);
-    }
-
-    private static DynamoResponse getResponse(String fromDate, String toDate, String dateFormat, String timeZone, String tableEnv) {
-        DynamoResponse response = new DynamoResponse();
-        ReadWrite.getByDateRange(fromDate, toDate, dateFormat, timeZone, tableEnv, response, getNosqlDB());
-        return response;
     }
 
     public static void DELETE(String itemLookup,
