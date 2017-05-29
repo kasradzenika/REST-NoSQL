@@ -7,11 +7,14 @@ import com.onenow.hedgefund.discovery.EnvironmentDatabase;
 import com.onenow.hedgefund.discrete.DeployEnv;
 import com.onenow.hedgefund.discrete.TableName;
 import com.onenow.hedgefund.logging.Watchr;
+import com.onenow.hedgefund.monitor.MonitoringTimer;
 import com.onenow.hedgefund.nosql.ReadWrite;
 import com.onenow.hedgefund.nosql.ReadWriteTable;
 import com.onenow.hedgefund.responsenosql.DynamoResponse;
+import com.onenow.hedgefund.time.DateTime;
 import com.onenow.hedgefund.time.Pacing;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -66,12 +69,27 @@ public class NoSqlService
         return Dynamo.getTables();
     }
 
-    public static DynamoResponse GET(String itemLookup,
-                                     TableName tableName)
+    private static Integer timeToLiveSec = 300;
+    private static HashMap<String, Long> responseStamp = new HashMap<>();
+    private static HashMap<String, DynamoResponse> lastResponse = new HashMap<>();
+
+    public static DynamoResponse GET(String itemLookup, TableName tableName)
             throws Exception {
 
-        DynamoResponse response = new DynamoResponse();
-        ReadWrite.get(itemLookup, LookupTable.getKey(tableName, getNosqlDB()), response, getNosqlDB());
+        String tableEnv = LookupTable.getKey(tableName, getNosqlDB());
+        String documentKey = LookupDocument.getKey(itemLookup, tableEnv);
+
+        DynamoResponse response;
+        Long nowMs = DateTime.getTimeMilisecondsNow();
+
+        if(MonitoringTimer.elapsed(nowMs, responseStamp.get(documentKey), timeToLiveSec)) {
+            response = new DynamoResponse();
+            ReadWrite.get(itemLookup, tableEnv, response, getNosqlDB());
+            lastResponse.put(documentKey, response);
+            responseStamp.put(documentKey, nowMs);
+        } else {
+            response = lastResponse.get(documentKey);
+        }
 
         //        Watchr.log("GET() RESPONSE " + response.resources.toString());
 
