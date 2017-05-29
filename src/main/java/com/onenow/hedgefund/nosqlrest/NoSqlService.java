@@ -21,6 +21,12 @@ import java.util.List;
 public class NoSqlService
 {
 
+    // CACHE
+    private static Integer timeToLiveSec = 300;
+    private static HashMap<String, Long> responseStamp = new HashMap<>();
+    private static HashMap<String, DynamoResponse> lastResponse = new HashMap<>();
+
+
     private static DeployEnv getNosqlDB() {
         return EnvironmentDatabase.getNosqlValue();
     }
@@ -50,13 +56,28 @@ public class NoSqlService
     public static DynamoResponse GET(TableName tableName)
             throws Exception {
 
-        Dynamo.createTableIfDoesnotExist(LookupTable.getKey(tableName, getNosqlDB()));
+        String tableEnv = LookupTable.getKey(tableName, getNosqlDB());
+        String documentKey = "all";
 
-        DynamoResponse response = new DynamoResponse();
+        Dynamo.createTableIfDoesnotExist(tableEnv);
 
-        for (String lookup : Dynamo.getLookups(LookupTable.getKey(tableName, getNosqlDB()))) {
-            ReadWrite.get(lookup, LookupTable.getKey(tableName, getNosqlDB()), response, getNosqlDB());
-            Pacing.sleepMillis(10); // reduce pressure on DynamoDB
+        DynamoResponse response;
+        Long nowMs = DateTime.getTimeMilisecondsNow();
+
+        if(MonitoringTimer.elapsed(nowMs, responseStamp.get(documentKey), timeToLiveSec)) {
+
+            response = new DynamoResponse();
+
+            for (String lookup : Dynamo.getLookups(LookupTable.getKey(tableName, getNosqlDB()))) {
+                ReadWrite.get(lookup, LookupTable.getKey(tableName, getNosqlDB()), response, getNosqlDB());
+                Pacing.sleepMillis(10); // reduce pressure on DynamoDB
+            }
+
+            lastResponse.put(documentKey, response);
+            responseStamp.put(documentKey, nowMs);
+
+        } else {
+            response = lastResponse.get(documentKey);
         }
 
         //        Watchr.log("GET() FROM " + tableName + " RETURNED RESPONSE " + response.resources.toString());
@@ -69,9 +90,6 @@ public class NoSqlService
         return Dynamo.getTables();
     }
 
-    private static Integer timeToLiveSec = 300;
-    private static HashMap<String, Long> responseStamp = new HashMap<>();
-    private static HashMap<String, DynamoResponse> lastResponse = new HashMap<>();
 
     public static DynamoResponse GET(String itemLookup, TableName tableName)
             throws Exception {
@@ -83,10 +101,13 @@ public class NoSqlService
         Long nowMs = DateTime.getTimeMilisecondsNow();
 
         if(MonitoringTimer.elapsed(nowMs, responseStamp.get(documentKey), timeToLiveSec)) {
+
             response = new DynamoResponse();
             ReadWrite.get(itemLookup, tableEnv, response, getNosqlDB());
+
             lastResponse.put(documentKey, response);
             responseStamp.put(documentKey, nowMs);
+
         } else {
             response = lastResponse.get(documentKey);
         }
